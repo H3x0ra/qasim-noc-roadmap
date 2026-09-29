@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOC / Systems Engineer Study Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f6;--card:#fff;--ink:#0e1a2b;--mut:#56657c;--line:#cfd8e3;--c0:#1f6feb;--c1:#0f9d8a;--c2:#e08a00;--c3:#d6336c;--c4:#7048e8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1422;--card:#132033;--ink:#e6edf7;--mut:#93a4bd;--line:#26374f;--c0:#5b9bff;--c1:#2dd4bf;--c2:#fbbf24;--c3:#f472b6;--c4:#a78bfa}}
+:root[data-theme="dark"]{--bg:#0b1422;--card:#132033;--ink:#e6edf7;--mut:#93a4bd;--line:#26374f;--c0:#5b9bff;--c1:#2dd4bf;--c2:#fbbf24;--c3:#f472b6;--c4:#a78bfa}
+html{scroll-padding-top:60px;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;line-height:1.1;margin:0}
+h2{font-size:clamp(26px,4vw,38px);margin-bottom:8px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;display:flex;gap:4px;align-items:center;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto}
+nav a{color:var(--mut);text-decoration:none;padding:6px 10px;border-radius:8px;white-space:nowrap;font-weight:500;font-size:14px}
+nav a:hover,nav button:hover{background:var(--card);color:var(--ink)}
+nav button{margin-left:auto;background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:5px 10px;cursor:pointer;font:inherit;font-size:14px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--c0);outline-offset:2px}
+main{max-width:980px;margin:0 auto;padding:0 18px 70px}
+section{padding-top:56px}
+.sub{color:var(--mut);max-width:62ch;margin:0 0 22px}
+.hero{padding-top:44px}
+.hero h1{font-size:clamp(38px,8vw,76px);font-weight:800;letter-spacing:-.03em}
+.hero p{font-size:19px;color:var(--mut);max-width:56ch;margin:16px 0 26px}
+.strip{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.strip b{width:26px;height:10px;border-radius:5px;background:var(--pc);opacity:.35}
+.strip b.done{opacity:1}
+.meter{height:8px;background:var(--line);border-radius:4px;overflow:hidden;max-width:420px}
+.meter i{display:block;height:100%;width:0;background:var(--c1);transition:width .4s}
+.meta{color:var(--mut);font-size:14px;margin-top:8px}
+.p0{--pc:var(--c0)}.p1{--pc:var(--c1)}.p2{--pc:var(--c2)}.p3{--pc:var(--c3)}.p4{--pc:var(--c4)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.legend span{display:flex;gap:7px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:14px}
+.legend span:before{content:"";width:12px;height:12px;border-radius:50%;background:var(--pc)}
+.line{position:relative;margin-left:14px}
+.line:before{content:"";position:absolute;left:11px;top:0;bottom:0;width:6px;background:var(--line);border-radius:3px}
+.st{position:relative;padding:0 0 14px 52px}
+.st:before{content:"";position:absolute;left:11px;top:0;bottom:0;width:6px;background:var(--pc);z-index:1}
+.st.first:before{top:22px;border-radius:3px 3px 0 0}.st.last:before{bottom:auto;height:24px;border-radius:0 0 3px 3px}
+.dot{position:absolute;left:0;top:10px;width:28px;height:28px;border-radius:50%;background:var(--card);border:5px solid var(--pc);z-index:2;display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink)}
+.st.done .dot{background:var(--pc);color:#fff}
+.hd{display:flex;gap:10px;align-items:center;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;color:var(--ink);font:inherit;text-align:left}
+.hd strong{font-family:"Bricolage Grotesque",Figtree,sans-serif;font-size:19px}
+.hd small{color:var(--mut);margin-left:auto;white-space:nowrap}
+.st.open .hd{border-color:var(--pc)}
+.bd{display:none;background:var(--card);border:1px solid var(--pc);border-top:0;border-radius:0 0 12px 12px;padding:4px 16px 14px;margin-top:-4px}
+.st.open .bd{display:block}
+.bd dl{display:grid;grid-template-columns:110px 1fr;gap:6px 14px;margin:10px 0}
+.bd dt{color:var(--mut);font-size:14px}.bd dd{margin:0}
+.bd label{display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:600}
+.hint{background:var(--card);border-left:5px solid var(--c3);padding:10px 14px;border-radius:0 10px 10px 0;margin:6px 0 18px}
+.tbl{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.sk{display:grid;grid-template-columns:150px 1fr;gap:4px 16px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.sk:last-child{border:0}
+.sk b{grid-row:span 2;align-self:center}
+.bar{position:relative;height:10px;background:var(--line);border-radius:5px;margin-top:6px}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--c0);border-radius:5px}
+.bar u{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--c3);border-radius:2px}
+.sk span{color:var(--mut);font-size:14px}
+.rt{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.card h3{font-size:20px;margin-bottom:4px}.card p{margin:0;color:var(--mut);font-size:15px}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px}
+svg{display:block;min-width:640px;width:100%;height:auto}
+svg text{fill:var(--ink);font:600 13px Figtree,sans-serif}
+svg .bx{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+svg .g{fill:none;stroke:var(--c1);stroke-width:2;stroke-dasharray:6 4}
+svg .ar{stroke:var(--mut);stroke-width:2;fill:none}
+svg .t{fill:var(--mut);font-weight:500;font-size:11px}
+.chk{display:flex;flex-direction:column;gap:8px}
+.chk label{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
+input[type=checkbox]{width:19px;height:19px;margin-top:2px;accent-color:var(--c1);flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 12px;color:var(--mut);text-decoration:line-through;text-decoration-color:var(--c3)}
+.lad{display:grid;gap:12px}
+.lad .card{border-left:6px solid var(--pc)}
+.nt{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.nt h4{margin:0 0 8px;font:800 17px "Bricolage Grotesque",Figtree,sans-serif}
+.bd .f{display:block;font-weight:500;color:var(--mut);font-size:14px;margin-bottom:10px;cursor:default}
+.f textarea{display:block;width:100%;margin-top:4px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:9px 11px;font:15px/1.5 Figtree,system-ui,sans-serif;resize:vertical}
+.f textarea.code{font:13px/1.5 ui-monospace,Menlo,monospace}
+.fl{margin:4px 0 8px;font-size:14px}.fl div{display:flex;gap:10px;align-items:center;padding:3px 0}
+.fl a{color:var(--c0);word-break:break-all}
+.nt button{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:3px 10px;cursor:pointer;font:inherit;font-size:13px}
+.up{display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px;color:var(--ink);font-weight:600}
+.up input{display:none}.up:focus-within{outline:3px solid var(--c0)}
+.ns{margin-left:12px;color:var(--mut);font-size:13px}
+.dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:8px}
+.dash .card p{margin:4px 0 0}.big{font:800 34px "Bricolage Grotesque",Figtree,sans-serif}
+.dash .meter{max-width:none;margin-top:8px}
+.btn{background:var(--c0);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:600 14px Figtree,sans-serif;cursor:pointer;margin-top:8px}
+.btn.g,.pre button{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.pre{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.pre button{border-radius:8px;padding:7px 12px;cursor:pointer;font:600 14px Figtree,sans-serif}
+.clock{font:800 44px "Bricolage Grotesque",Figtree,sans-serif;font-variant-numeric:tabular-nums}
+.tm select,.ad input{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 9px;font:14px Figtree,sans-serif;margin-top:8px;max-width:100%}
+.ck{display:flex;gap:9px;align-items:center;padding:4px 0;cursor:pointer;font-weight:500}
+.ck.d span{color:var(--mut);text-decoration:line-through}
+.ck button{margin-left:auto}
+.ad{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ad input{flex:1;min-width:150px;margin:6px 0}
+.lg{color:var(--mut);font-size:14px;margin:0 0 6px}
+.lv{font-style:normal;font-weight:500;margin-left:6px;white-space:nowrap}
+.lv button{background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:6px;width:24px;height:24px;cursor:pointer}
+.brand{font:800 15px "Bricolage Grotesque",Figtree,sans-serif;color:var(--ink);text-decoration:none;margin-right:8px;padding:6px 4px}
+.ccwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.cc{border-left:6px solid var(--pc)}
+.cc .sub2{color:var(--mut);margin:0 0 10px;font-size:15px}
+.cdl{display:grid;grid-template-columns:132px 1fr;gap:7px 14px;margin:0 0 14px}
+.cdl dt{color:var(--mut);font-size:14px}.cdl dd{margin:0}
+.tagc{display:inline-block;background:var(--pc);color:#fff;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;margin-left:6px;vertical-align:2px}
+@media(max-width:560px){.sk{grid-template-columns:1fr}.sk b{grid-row:auto}.bd dl{grid-template-columns:1fr;gap:0}.bd dd{margin-bottom:8px}.hd small{display:none}.cdl{grid-template-columns:1fr;gap:0}.cdl dd{margin-bottom:8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav aria-label="Sections"><a href="#zone" class="brand">Ops Path</a><a href="#zone">Study zone</a><a href="#map">Route</a><a href="#certs">Certifications</a><a href="#gaps">Skill gaps</a><a href="#rhythm">Rhythm</a><a href="#capstone">Capstone</a><a href="#ready">Readiness</a><a href="#skip">Skip list</a><a href="#next">After</a><button id="tg" type="button">Theme</button></nav>
+<main>
+<header class="hero">
+<h1>From help desk to running production.</h1>
+<p>A 16-week route to NOC / Systems Engineer: Linux, networking, Docker, AWS, APIs, monitoring, Kubernetes and Terraform. About 6 hours a week, built to survive busy weeks — with your own notes, progress and two optional certifications tracked along the way.</p>
+<div class="strip" id="strip" aria-hidden="true"></div>
+<div class="dash" id="zone">
+<div class="card"><div class="big" id="dpct">0%</div><p id="dsub"></p><div class="meter"><i id="dbar"></i></div><p class="meta">Saved automatically</p></div>
+<div class="card"><h3>Next up</h3><p id="dnext"></p><button class="btn" id="go" type="button">Open this week</button></div>
+<div class="card"><h3>Time logged</h3><div class="big" id="dhrs">0h</div><p id="dwk"></p></div>
+<div class="card tm"><h3>Study session</h3><div class="clock" id="clk" aria-live="off">50:00</div>
+<div class="pre" id="pre"><button type="button" data-m="25">25</button><button type="button" data-m="50">50</button><button type="button" data-m="75">75</button></div>
+<select id="tw" aria-label="Log time to week"></select>
+<div class="pre"><button type="button" class="btn" id="tgo" style="margin:0">Start</button><button type="button" id="tlog">Log time</button></div>
+<p class="meta" id="tmsg"></p></div>
+</div>
+</header>
+
+<section id="map">
+<h2>The route</h2>
+<p class="sub">Each week ends with an artifact in your Git repo. Open a stop to read the plan, write what you did and what is left, and attach files.</p>
+<div class="legend" id="legend"></div>
+<div class="line" id="line"></div>
+</section>
+
+<section id="certs">
+<h2>Certifications</h2>
+<p class="sub">Optional — neither is required for the target role. Both are here because they validate exactly what’s already in the route above, both are hands-on exams rather than multiple-choice, and neither adds to the ~6 h/week budget: the weeks below already cover the material, and sitting the exam is a separate step for whenever you’re ready.</p>
+<div class="ccwrap" id="certg"></div>
+</section>
+
+<section id="gaps">
+<h2>Skill gaps</h2>
+<p class="sub">Use + and − to update your current level as you improve. Filled bar is where you are now. The pink marker is where you need to be (scale 0–5).</p>
+<div class="tbl" id="gapt"></div>
+</section>
+
+<section id="rhythm">
+<h2>Weekly rhythm</h2>
+<p class="sub">Three sessions of 60–90 minutes. A fourth is optional.</p>
+<div class="rt">
+<div class="card"><h3>1. Learn and lab</h3><p>75 min. Minimum theory, then the KodeKloud lab.</p></div>
+<div class="card"><h3>2. Rebuild</h3><p>75 min. Redo it from scratch, no lesson. Where you stall is what you still don't know.</p></div>
+<div class="card"><h3>3. Apply and write</h3><p>90 min. Do the week's task, write the artifact, commit it.</p></div>
+<div class="card"><h3>4. Catch-up (optional)</h3><p>45 min. Review or absorb a missed session.</p></div>
+</div>
+<div class="hint" style="margin-top:14px"><b>Missed days cost nothing.</b> Resume at the next session, never restart. Two weeks behind: drop Kubernetes II first, then trim Kubernetes I. Weeks 1–12 are never cut.</div>
+</section>
+
+<section id="capstone">
+<h2>Capstone: Ops-Status</h2>
+<p class="sub">One environment that uses every skill. Terraform builds it, Docker runs it, scripts and Prometheus watch it, and you break it on purpose and write the RCA.</p>
+<div class="wrap"><svg viewBox="0 0 760 390" role="img" aria-label="Architecture: Terraform provisions an AWS VPC with an EC2 host running Docker Compose services, S3 for backups, CloudWatch alarms and Postman smoke tests.">
+<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--mut)"/></marker></defs>
+<rect class="bx" x="10" y="20" width="130" height="54" rx="10"/><text x="75" y="52" text-anchor="middle">Terraform</text>
+<path class="ar" d="M140 47H176" marker-end="url(#ah)"/>
+<rect class="bx" x="10" y="150" width="130" height="54" rx="10"/><text x="75" y="175" text-anchor="middle">Postman</text><text class="t" x="75" y="192" text-anchor="middle">smoke tests</text>
+<path class="ar" d="M140 177H216" marker-end="url(#ah)"/>
+<rect class="bx" x="10" y="290" width="130" height="54" rx="10"/><text x="75" y="315" text-anchor="middle">You (SSH)</text><text class="t" x="75" y="332" text-anchor="middle">your IP only</text>
+<path class="ar" d="M140 317H216" marker-end="url(#ah)"/>
+<rect class="g" x="176" y="10" width="574" height="370" rx="14"/><text x="190" y="32">AWS VPC, public subnet</text>
+<rect class="bx" x="200" y="48" width="350" height="320" rx="12"/><text x="214" y="70">EC2 Ubuntu, Docker Compose</text>
+<rect class="bx" x="216" y="86" width="96" height="50" rx="8"/><text x="264" y="116" text-anchor="middle">nginx</text>
+<rect class="bx" x="326" y="86" width="96" height="50" rx="8"/><text x="374" y="116" text-anchor="middle">Python API</text>
+<rect class="bx" x="436" y="86" width="96" height="50" rx="8"/><text x="484" y="116" text-anchor="middle">Postgres</text>
+<path class="ar" d="M312 111H326M422 111H436" marker-end="url(#ah)"/>
+<rect class="bx" x="216" y="170" width="96" height="50" rx="8"/><text x="264" y="192" text-anchor="middle">node_exporter</text>
+<rect class="bx" x="326" y="170" width="96" height="50" rx="8"/><text x="374" y="200" text-anchor="middle">Prometheus</text>
+<rect class="bx" x="436" y="170" width="96" height="50" rx="8"/><text x="484" y="200" text-anchor="middle">Grafana</text>
+<path class="ar" d="M312 195H326M422 195H436" marker-end="url(#ah)"/>
+<rect class="bx" x="216" y="254" width="316" height="50" rx="8"/><text x="374" y="276" text-anchor="middle">Bash + cron</text><text class="t" x="374" y="293" text-anchor="middle">healthcheck.sh, backup.sh, log_report.sh</text>
+<text class="t" x="214" y="340">IAM instance role, security group 80/443</text>
+<rect class="bx" x="586" y="86" width="150" height="60" rx="10"/><text x="661" y="112" text-anchor="middle">S3 bucket</text><text class="t" x="661" y="130" text-anchor="middle">backups, logs</text>
+<rect class="bx" x="586" y="180" width="150" height="60" rx="10"/><text x="661" y="206" text-anchor="middle">CloudWatch</text><text class="t" x="661" y="224" text-anchor="middle">status-check alarms</text>
+<path class="ar" d="M532 279H560V116H586" marker-end="url(#ah)"/>
+<path class="ar" d="M550 210H586" marker-end="url(#ah)"/>
+</svg></div>
+<div class="rt" style="margin-top:14px">
+<div class="card"><h3>Deploy flow</h3><p>terraform apply, then docker compose up -d, cron starts the checks, Newman smoke test confirms.</p></div>
+<div class="card"><h3>Alerts</h3><p>Host down, disk over 85%, API 5xx rate, container restarting, EC2 status check.</p></div>
+<div class="card"><h3>Break it, then write the RCA</h3><p>Disk fills from logs. Bad env var crash-loop. Security group blocks 443. DNS or route fault. Volume permission error. Revoked S3 credentials.</p></div>
+</div>
+<div class="wrap" style="margin-top:14px;padding:14px"><pre style="margin:0;font:13px/1.5 ui-monospace,Menlo,monospace;color:var(--ink)">ops-status/
+├─ README.md   (overview, diagram, deploy, operate, alerts, RCA index, teardown)
+├─ terraform/  main.tf  variables.tf  outputs.tf
+├─ docker/     compose.yml  Dockerfile  nginx.conf
+├─ app/        scripts/  monitoring/  postman/  k8s/
+└─ docs/       architecture.md  runbooks/  rca/RCA-001 … RCA-006</pre></div>
+</section>
+
+<section id="ready">
+<h2>Readiness</h2>
+<p class="sub">No exam. You are ready when you can do each of these on a fresh environment, unaided.</p>
+<div class="chk" id="chk"></div>
+</section>
+
+<section id="skip">
+<h2>Skip for now</h2>
+<p class="sub">None of these improve readiness for this job enough yet.</p>
+<div class="chips" id="chips"></div>
+</section>
+
+<section id="next">
+<h2>After the role</h2>
+<p class="sub">Each stage adds a small set of skills on top of the last.</p>
+<div class="lad" id="lad"></div>
+</section>
+</main>
+
+<script>
+var P=["Foundations","Containers","Cloud and APIs","Operations","Orchestrate and codify"];
+var W=[
+[1,0,"Linux I","Filesystem, users/groups, permissions/sudo, processes, apt, grep/awk/sed","Crash Course: Linux For Absolute Beginners; Linux Challenges (users, permissions)","Build a VM with a service account, restricted directories and least-privilege sudo","linux-cheatsheet.md","None",6,"LFCS"],
+[2,0,"Linux II: failures","systemd, journalctl, /var/log, top/free/df/iostat, cron, disk-full and OOM","Linux Challenges (services, storage)","Break and fix 5 services: bad unit file, full disk, wrong permissions, port conflict, crash","linux-triage-runbook.md","Week 1",6,"LFCS"],
+[3,0,"Networking","IP/subnetting, DNS, DHCP, routing, NAT, ip, ss, dig, curl, traceroute, tcpdump, ufw/iptables","Linux Challenges (networking) plus one free subnetting resource","Simulate 5 faults (DNS, blocked port, wrong gateway, service down, firewall) and isolate layer by layer","network-triage-decision-tree.md","Week 2",7,"LFCS"],
+[4,0,"Bash I","Variables, conditionals, loops, functions, exit codes, set -euo pipefail","Shell Scripts for Beginners","Write healthcheck.sh: disk, memory, service, port, HTTP","scripts/healthcheck.sh","Weeks 2–3",6],
+[5,0,"Bash II and Git","Log parsing, backups, cron. Git branch/commit/merge/PR, .gitignore, no secrets in repos","GIT for Beginners","Write backup.sh and log_report.sh. Put everything in a GitHub repo with a PR flow","Repo noc-lab with 3 scripts","Week 4",6],
+[6,1,"Docker I","Images, containers, Dockerfile, volumes, networks, Compose","Docker Training Course for the Absolute Beginner (skip Swarm)","Containerize your Python API and a database with Compose","docker/ with a working Compose stack","Week 5",6],
+[7,1,"Docker II: failures","logs, exec, inspect, exit codes, restart policies, healthchecks, resource limits","Docker course labs, rebuilt without notes","Break 5 containers: bad env var, port clash, missing volume, OOM, wrong network","docker-triage-runbook.md","Week 6",6],
+[8,2,"AWS I","IAM basics, EC2, key pairs, security groups, AMIs, S3","Crash Course: AWS Basics; AWS playground","Launch EC2, run the Compose stack, create an AMI, launch a second instance from it","aws-ec2-notes.md, AMI ID","Weeks 6–7",6,"AWS"],
+[9,2,"AWS II: VPC","VPC, subnets, route tables, IGW, NAT, SG vs NACL, S3 policies, CloudWatch basics","AWS Basics (VPC labs); AWS playground","Build a public/private VPC. Cause and diagnose 'cannot reach instance' three ways, incl. Reachability Analyzer","vpc-diagram.png, vpc-troubleshooting.md","Weeks 3, 8",7,"AWS"],
+[10,2,"APIs and Postman","HTTP methods, status codes, auth headers, JSON, collections, environments, test scripts","JSON Path Test (free); Postman Learning Center (not KodeKloud)","Postman collection with assertions, run against your EC2 instance","postman/collection.json","Weeks 6, 8",6],
+[11,3,"Production support and RCA","Severity levels, incident timeline, 5 Whys, blameless post-mortem, runbooks","100 Days of DevOps tasks as incident practice; Google SRE post-mortem chapter","Write 2 RCAs from your own Week 2/7/9 break-fixes plus an incident template","docs/rca/ (2 RCAs), incident-template.md","Weeks 2, 7, 9",6],
+[12,3,"Monitoring","Prometheus, node_exporter, PromQL basics, alert rules, Grafana, CloudWatch alarms","Prometheus Certified Associate prep: exporters, PromQL and alerting sections only","Monitor the EC2 host and API. One dashboard, 3 alerts: down, disk over 85%, high 5xx","monitoring/ configs and dashboard","Weeks 8, 10",7],
+[13,4,"Kubernetes I","Pods, Deployments, Services, ConfigMaps/Secrets, kubectl get/describe/logs (7 topics only)","Kubernetes for the Absolute Beginners; Kubernetes Challenges","Run your API on kind or minikube","k8s/ manifests","Week 6",6],
+[14,4,"Kubernetes II: failures","CrashLoopBackOff, ImagePullBackOff, Pending, events, resource limits","Kubernetes Challenges (troubleshooting)","Break and fix 5 workloads","k8s-triage-runbook.md","Week 13",5],
+[15,4,"Terraform","Providers, resources, variables, outputs, state, plan/apply/destroy","Terraform Basics Training Course; Terraform Challenges","Rebuild the Week 8–9 VPC, EC2 and S3 in Terraform","terraform/","Week 9",6],
+[16,4,"Capstone and buffer","Integration, failure drills, README","None","Run all 6 failure scenarios and write the RCAs","Finished ops-status repo","All",6]];
+var G=[["Linux",2,4,"Critical","Services, logs, disks and permissions are the job."],["Networking",3,4,"Critical","Most incidents look like network problems first."],["Bash",2,4,"High","Automating repetitive operations."],["Git",2,3,"High","Everything you build must be versioned."],["Docker",2,4,"Critical","Named in the job description."],["AWS",1,3,"Critical","EC2, AMIs, S3 and VPC are named in the job description."],["APIs / Postman",2,3,"High","API validation is a stated duty."],["Support and RCA",3,4,"Critical","Your help desk experience is the base."],["Monitoring",2,3,"High","A NOC lives on dashboards and alerts."],["Kubernetes",0,2,"Medium","Read and triage, not administer."],["Terraform",0,2,"Medium","Rebuild infrastructure repeatably."]];
+var R=["Diagnose a failed Linux service in under 15 minutes with systemctl, journalctl and ss","Isolate a network failure to DNS, routing, firewall or the service","Troubleshoot a crashing container from logs, inspect and exit codes","Deploy EC2 with a security group, and create and reuse an AMI","Build a public/private VPC and explain why an instance is unreachable","Write a Postman collection with status, schema and response-time assertions","Analyze logs to build an incident timeline","Write an RCA: root cause, impact, fix, prevention","Automate a repetitive check or backup in Bash and schedule it","Rebuild the capstone infrastructure from zero with Terraform","Read a Kubernetes failure (describe, logs, events) and name the cause"];
+var X=["Ansible","Jenkins and full CI/CD","Helm and Istio","EKS and CKA","Docker Swarm","OpenShift","Azure and GCP","Lambda and serverless","Deep Python or Go","AI and MCP courses","Terraform modules and remote state","Vault and Consul","More security tooling","Certifications beyond LFCS and AWS"];
+var L=[["Senior Systems Engineer","6–12 months","Ansible, deeper Linux (performance, LVM, SELinux), deeper AWS (IAM, ALB, RDS, Route 53), on-call ownership."],["Cloud Engineer / DevOps","Year 1–2","CI/CD pipelines, Terraform modules and remote state, EKS, Helm, container registries."],["SRE","Year 2–3","SLIs/SLOs, error budgets, advanced Prometheus, capacity planning, chaos testing."],["DevSecOps","Parallel or after","Your security background returns: pipeline and IaC scanning, image scanning, secrets management, Kubernetes security, detection mapped to MITRE ATT&CK."]];
+var CERTS=[["LFCS","Linux Foundation Certified System Administrator","p0",[1,2,3],
+"Builds entirely on Weeks 1–3 above — no separate track, the same Linux and networking work.",
+"Sit it after Week 9 or 10, once the break-fix reps from Weeks 2, 3 and 7 and the RCA work in Week 11 have made the skills durable. Right after Week 3 tests skills that are still fresh but shallow.",
+"Performance-based, live terminal, no multiple choice. 2 hours, about $395, run on Ubuntu or CentOS Stream — the same distro as your labs.",
+"https://kodekloud.com/courses/linux-foundation-certified-system-administrator-lfcs","KodeKloud LFCS course"],
+["AWS","Cloud Practitioner, then Solutions Architect Associate","p2",[8,9],
+"Builds on Weeks 8–9 (EC2, AMIs, S3, VPC). The certification formalizes what those hands-on labs already teach.",
+"For later, as you said — right before you apply for the target role, or during the Cloud Engineer / DevOps stage below, whichever comes first.",
+"Manara runs a MENA-focused partnership with AWS: structured learning paths toward Cloud Practitioner and Solutions Architect Associate/Professional, plus hiring pathways. Worth checking your eligibility.",
+"https://manara.tech/","Manara"]];
+var S={w:{},r:{},st:{},cu:{},lg:{},g:{}};
+try{var s=JSON.parse(localStorage.getItem("noc-roadmap")||"null");if(s)mergeS(s)}catch(e){}
+function mergeS(s){["w","r","st","cu","lg","g"].forEach(function(k){S[k]=s[k]||{}})}
+function save(){try{localStorage.setItem("noc-roadmap",JSON.stringify(S))}catch(e){}
+ try{if(db&&uid)db.doc(base+"/progress").set(S).catch(function(){})}catch(e){}}
+function $(i){return document.getElementById(i)}
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+$("legend").innerHTML=P.map(function(p,i){return '<span class="p'+i+'">'+p+'</span>'}).join("");
+function draw(){
+ var open={};document.querySelectorAll(".st.open").forEach(function(e){open[e.dataset.n]=1});
+ $("line").innerHTML=W.map(function(w,i){var n=w[0],d=done(n);
+  return '<div class="st p'+w[1]+(i==0?' first':'')+(i==15?' last':'')+(d?' done':'')+(open[n]?' open':'')+'" data-n="'+n+'"><div class="dot">'+(d?'✓':n)+'</div>'+
+  '<button type="button" class="hd" aria-expanded="'+(open[n]?'true':'false')+'"><strong>'+esc(w[2])+(w[9]?' <span class="tagc">'+w[9]+'</span>':'')+'</strong><small>Week '+n+', ~'+w[8]+' h · '+Math.round(pct(n)*100)+'%'+(hasNote(n)?' · notes':'')+'</small></button>'+
+  '<div class="bd"><dl><dt>Skills</dt><dd>'+esc(w[3])+'</dd><dt>KodeKloud</dt><dd>'+esc(w[4])+'</dd><dt>Hands-on</dt><dd>'+esc(w[5])+'</dd><dt>Artifact</dt><dd>'+esc(w[6])+'</dd><dt>Builds on</dt><dd>'+esc(w[7])+'</dd></dl>'+
+  checkHtml(n)+noteHtml(n)+'</div></div>'}).join("");
+ dash();
+}
+$("line").addEventListener("click",function(e){
+ var h=e.target.closest(".hd");if(h){var st=h.parentNode;st.classList.toggle("open");h.setAttribute("aria-expanded",st.classList.contains("open"))}
+ 
+});
+function gap(){$("gapt").innerHTML=G.map(function(g,i){var v=S.g[i]!=null?S.g[i]:g[1];return '<div class="sk"><b>'+g[0]+' <em class="lv"><button type="button" data-g="'+i+':-1" aria-label="Lower level">−</button> '+v+'/'+g[2]+' <button type="button" data-g="'+i+':1" aria-label="Raise level">+</button></em></b><div class="bar" aria-label="Now '+v+', target '+g[2]+' of 5"><i style="width:'+v/5*100+'%"></i><u style="left:calc('+g[2]/5*100+'% - 2px)"></u></div><span>'+g[3]+': '+g[4]+'</span></div>'}).join("")}
+gap();
+$("gapt").addEventListener("click",function(e){var b=e.target.closest("button[data-g]");if(!b)return;var a=b.dataset.g.split(":"),i=+a[0],v=(S.g[i]!=null?S.g[i]:G[i][1])+ +a[1];S.g[i]=Math.max(0,Math.min(5,v));save();gap()})
+function chk(){$("chk").innerHTML=R.map(function(t,i){return '<label><input type="checkbox" data-r="'+i+'"'+(S.r[i]?' checked':'')+'><span>'+t+'</span></label>'}).join("")}
+chk();
+$("chk").addEventListener("change",function(e){var k=e.target;if(k.dataset.r!==undefined){S.r[k.dataset.r]=k.checked;save()}});
+$("chips").innerHTML=X.map(function(x){return '<span>'+x+'</span>'}).join("");
+$("lad").innerHTML=L.map(function(l,i){return '<div class="card p'+(i+1)+'" style="--pc:var(--c'+(i+1)+')"><h3>'+l[0]+'</h3><p><b>'+l[1]+'.</b> '+l[2]+'</p></div>'}).join("");
+function certs(){$("certg").innerHTML=CERTS.map(function(c){var wk=c[3],lbl=wk.length>1?('Weeks '+wk[0]+'–'+wk[wk.length-1]):('Week '+wk[0]);
+ return '<div class="card cc '+c[2]+'"><h3>'+c[0]+'</h3><p class="sub2">'+c[1]+'</p><dl class="cdl"><dt>Learning path</dt><dd>'+c[4]+'</dd><dt>Certification stage</dt><dd>'+c[5]+'</dd><dt>Format</dt><dd>'+c[6]+'</dd><dt>Resource</dt><dd><a href="'+c[7]+'" target="_blank" rel="noopener">'+c[8]+'</a></dd></dl><button type="button" class="btn g" data-jump="'+wk[0]+'">See '+lbl+'</button></div>'}).join("")}
+certs();
+$("tg").onclick=function(){var d=document.documentElement,dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;d.dataset.theme=dark?"light":"dark"};
+var NOTES={},db=null,assets=null,uid=null,base="",tm={};
+try{var ln=JSON.parse(localStorage.getItem("noc-notes")||"null");if(ln)NOTES=ln}catch(e){}
+function nt(n){return NOTES[n]||(NOTES[n]={did:"",left:"",notes:"",files:[]})}
+function hasNote(n){var x=NOTES[n];return !!(x&&(x.did||x.left||x.notes||(x.files&&x.files.length)))}
+function ta(n,f,l,r,c){return '<label class="f">'+l+'<textarea rows="'+r+'" data-n="'+n+'" data-f="'+f+'"'+(c?' class="code"':'')+'>'+esc(nt(n)[f]||"")+'</textarea></label>'}
+function noteHtml(n){var x=nt(n),fl=(x.files||[]).map(function(f,i){return '<div><a href="'+esc(f.url)+'" target="_blank" rel="noopener">'+esc(f.name)+'</a><button type="button" data-rm="'+n+':'+i+'">Remove</button></div>'}).join("");
+ return '<div class="nt"><h4>My notes</h4>'+ta(n,"did","What I did",3)+ta(n,"left","What is remaining",3)+ta(n,"notes","Notes, commands, links",7,1)+
+ (assets?'<div class="fl">'+fl+'</div><label class="up">Upload a file<input type="file" multiple accept=".pdf,.md,.txt,.csv,.json,image/*" data-up="'+n+'"></label>':'')+
+ '<span class="ns" id="ns'+n+'" aria-live="polite"></span></div>'}
+function setSt(n,t){var e=$("ns"+n);if(e)e.textContent=t}
+function persist(n){clearTimeout(tm[n]);setSt(n,"Saving…");tm[n]=setTimeout(function(){
+ if(db&&uid){db.doc(base+"/w"+n).set(NOTES[n]).then(function(){setSt(n,"Saved")},function(e){setSt(n,"Could not save: "+(e&&e.message||"error"))})}
+ else{try{localStorage.setItem("noc-notes",JSON.stringify(NOTES));setSt(n,"Saved in this browser only")}catch(e){setSt(n,"Could not save")}}},600)}
+$("line").addEventListener("input",function(e){var t=e.target;if(t.dataset.f){nt(t.dataset.n)[t.dataset.f]=t.value;persist(t.dataset.n)}});
+$("line").addEventListener("change",function(e){var t=e.target;if(t.dataset.up&&assets){var n=t.dataset.up;Array.prototype.forEach.call(t.files,function(f){
+ setSt(n,"Uploading "+f.name+"…");assets.upload(f).then(function(r){nt(n).files.push({id:r.id,url:r.url,name:f.name});persist(n);draw()},function(er){setSt(n,"Upload failed: "+(er&&er.message||"error"))})})}});
+$("line").addEventListener("click",function(e){var b=e.target.closest("button[data-rm]");if(!b)return;var a=b.dataset.rm.split(":"),n=a[0],f=nt(n).files.splice(+a[1],1)[0];
+ if(f&&assets)assets.delete(f.id).catch(function(){});persist(n);draw()});
+(async function(){try{if(!window.claude)return;var u=await claude.use("user");uid=u?await u.id():null;db=await claude.use("db");assets=await claude.use("assets");
+ if(db&&uid){base="data/users/"+uid;var sn=await db.collection(base).get();sn.docs.forEach(function(d){var v=d.data();if(v&&d.id==="progress")mergeS(v);else if(v&&/^w\d+$/.test(d.id))NOTES[d.id.replace("w","")]=Object.assign({did:"",left:"",notes:"",files:[]},v)})}else{db=null;assets=null}
+ draw();chk();gap()}catch(e){db=null;assets=null}})();
+var STEPS=["Learn the minimum theory","Do the KodeKloud lab","Rebuild it without notes","Apply it to the week's task","Write and commit the artifact"];
+function items(n){return{st:S.st[n]||(S.w[n]?[1,1,1,1,1]:[0,0,0,0,0]),cu:S.cu[n]||[]}}
+function cnt(n){var i=items(n);return[i.st.filter(Boolean).length+i.cu.filter(function(c){return c.d}).length,5+i.cu.length]}
+function pct(n){var c=cnt(n);return c[0]/c[1]}
+function done(n){return pct(n)>=1}
+function hm(m){return Math.floor(m/60)+"h "+m%60+"m"}
+function checkHtml(n){var i=items(n),lg=S.lg[n]||0;
+ return '<div class="nt"><h4>Study checklist</h4><p class="lg">Time logged: '+hm(lg)+' (plan ~'+W[n-1][8]+' h)</p>'+
+ i.st.map(function(v,k){return '<label class="ck'+(v?' d':'')+'"><input type="checkbox" data-s="'+n+':'+k+'"'+(v?' checked':'')+'><span>'+STEPS[k]+'</span></label>'}).join("")+
+ i.cu.map(function(c,k){return '<label class="ck'+(c.d?' d':'')+'"><input type="checkbox" data-c="'+n+':'+k+'"'+(c.d?' checked':'')+'><span>'+esc(c.t)+'</span><button type="button" data-cr="'+n+':'+k+'" aria-label="Remove task">Remove</button></label>'}).join("")+
+ '<div class="ad"><input type="text" id="ad'+n+'" placeholder="Add your own task" maxlength="120" aria-label="Add your own task"><button type="button" class="btn g" data-add="'+n+'" style="margin:0">Add</button></div></div>'}
+var curN=1;
+function dash(){var tot=0,dn=0,tp=0,cur=null,mins=0;
+ W.forEach(function(w){var c=cnt(w[0]);tot+=c[1];dn+=c[0];mins+=S.lg[w[0]]||0;if(c[0]>=c[1])tp++;else if(!cur)cur=w});
+ $("strip").innerHTML=W.map(function(w){return '<b class="p'+w[1]+(done(w[0])?' done':'')+'"></b>'}).join("");
+ $("dpct").textContent=Math.round(dn/tot*100)+"%";$("dbar").style.width=(dn/tot*100)+"%";$("dsub").textContent=tp+" of 16 weeks complete";
+ if(cur){curN=cur[0];var i=items(cur[0]),k=i.st.indexOf(0),nx=k>=0?STEPS[k]:(i.cu.filter(function(c){return !c.d})[0]||{t:"Finish your extra tasks"}).t;
+  $("dnext").textContent="Week "+cur[0]+", "+cur[2]+". Next: "+nx+"."}else{$("dnext").textContent="All 16 weeks complete. Rebuild the capstone from zero."}
+ $("dhrs").textContent=hm(mins);$("dwk").textContent="Plan: about 96 hours over 16 weeks";
+ var sel=$("tw");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=curN}}
+function jump(n){var e=document.querySelector('.st[data-n="'+n+'"]');if(!e)return;e.classList.add("open");e.querySelector(".hd").setAttribute("aria-expanded","true");e.scrollIntoView({behavior:"smooth",block:"start"})}
+$("go").onclick=function(){jump(curN)};
+document.addEventListener("click",function(e){var b=e.target.closest("button[data-jump]");if(b)jump(+b.dataset.jump)});
+$("line").addEventListener("change",function(e){var t=e.target,a,n;
+ if(t.dataset.s){a=t.dataset.s.split(":");n=a[0];var st=items(n).st.slice();st[a[1]]=t.checked?1:0;S.st[n]=st;save();draw()}
+ else if(t.dataset.c){a=t.dataset.c.split(":");n=a[0];S.cu[n][a[1]].d=t.checked;save();draw()}});
+function addTask(n){var i=$("ad"+n),v=i&&i.value.trim();if(!v)return;(S.cu[n]=S.cu[n]||[]).push({t:v,d:false});save();draw()}
+$("line").addEventListener("click",function(e){var b=e.target.closest("button[data-add]");if(b)addTask(b.dataset.add);
+ b=e.target.closest("button[data-cr]");if(b){e.preventDefault();var a=b.dataset.cr.split(":");S.cu[a[0]].splice(+a[1],1);save();draw()}});
+$("line").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id&&e.target.id.indexOf("ad")===0){e.preventDefault();addTask(e.target.id.slice(2))}});
+var T={tot:50,s:3000,el:0,iv:null};
+function fmt(s){return ("0"+Math.floor(s/60)).slice(-2)+":"+("0"+s%60).slice(-2)}
+function pause(){clearInterval(T.iv);T.iv=null;$("tgo").textContent=T.el?"Resume":"Start"}
+function logT(){var m=Math.round(T.el/60);if(m<1){$("tmsg").textContent="Study for at least a minute, then log.";return}
+ var w=+$("tw").value;S.lg[w]=(S.lg[w]||0)+m;T.el=0;T.s=T.tot*60;pause();$("tgo").textContent="Start";$("clk").textContent=fmt(T.s);$("tmsg").textContent="Logged "+m+" min to Week "+w+".";save();dash();draw()}
+$("tgo").onclick=function(){if(T.iv){pause();return}if(T.s<=0)T.s=T.tot*60;$("tgo").textContent="Pause";
+ T.iv=setInterval(function(){T.s--;T.el++;$("clk").textContent=fmt(T.s);if(T.s<=0)logT()},1000)};
+$("tlog").onclick=logT;
+$("pre").addEventListener("click",function(e){var m=e.target.dataset.m;if(!m||T.iv)return;T.tot=+m;T.s=T.tot*60;T.el=0;$("clk").textContent=fmt(T.s);$("tgo").textContent="Start"});
+draw();
+</script>
+</body>
+</html>
+
