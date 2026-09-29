@@ -208,7 +208,8 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 .roadmap-extra[open] summary{margin-bottom:16px}
 @media(max-width:560px){nav{gap:5px}nav a[data-page-link]{padding:7px 9px}.page-intro{margin-top:16px;padding:22px 18px;border-radius:17px}}
 @media(max-width:560px){.dash{grid-template-columns:1fr}.dash .tm{grid-column:auto}.hero-facts{flex-wrap:wrap;row-gap:4px}}
-</style>
+.backup-card{margin:18px 0;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.backup-card h2{margin:0 0 8px}.backup-card .sub{margin:0 0 14px}.backup-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.backup-actions .btn{margin:0;cursor:pointer}.backup-card .meta{margin:12px 0 0}</style>
 </head>
 <body data-page="career">
 <nav aria-label="Main navigation"><a href="index.html" class="brand">Ops Path</a><a href="index.html#zone" data-page-link="dashboard">Dashboard</a><a href="roadmap.html#map" data-page-link="roadmap">Roadmap</a><a href="career.html" data-page-link="career" aria-current="page">Career &amp; Portfolio</a><button id="tg" type="button">Theme</button></nav>
@@ -269,7 +270,12 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 
 <div class="page-view page-career">
 <div class="page-intro"><div class="eyebrow">Career growth and portfolio</div><h1>Turn practice into opportunities.</h1><p>Keep the original certification, skill-gap, capstone, readiness, and next-step guidance together, with direct links to each section.</p><div class="page-shortcuts" aria-label="Career and portfolio sections"><a href="#portfolio">Portfolio</a><a href="#certs">Certifications</a><a href="#gaps">Skill gaps</a><a href="#rhythm">Study rhythm</a><a href="#capstone">Capstone</a><a href="#ready">Readiness</a><a href="#skip">Skip list</a><a href="#next">After the role</a></div></div>
-<section id="certs">
+<section id="data" class="backup-card">
+<h2>Back up your saved data</h2>
+<p class="sub">This site has no sign-in or online database. Your progress and notes save in this browser. Download a backup file to move them to another browser or device.</p>
+<div class="backup-actions"><button class="btn" id="backupExport" type="button">Download backup</button><label class="btn quiet" for="backupInput">Restore backup<input id="backupInput" type="file" accept=".json,application/json" hidden></label></div>
+<p class="meta" id="backupStatus" role="status">The backup contains your checklists, progress, and notes. It stays on your device unless you choose to share the file.</p>
+</section><section id="certs">
 <h2>Certifications</h2>
 <p class="sub">Optional — neither is required for the target role. Both are here because they validate exactly what’s already in the route above, both are hands-on exams rather than multiple-choice, and neither adds to the ~6 h/week budget: the weeks below already cover the material, and sitting the exam is a separate step for whenever you’re ready.</p>
 <div class="ccwrap" id="certg"></div>
@@ -367,7 +373,7 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 </section>
 </div>
 </main>
-<footer>Built for steady progress and practical proof. Checklist progress and notes stay in this browser; they are not committed to the public repository.</footer>
+<footer>Built for steady progress and practical proof. Progress and notes save in this browser. <a href="career.html#data">Back up or restore your data</a>.</footer>
 
 <script>
 var P=["Foundations","Containers","Cloud and APIs","Operations","Orchestrate and codify"];
@@ -445,9 +451,7 @@ function noteHtml(n){var x=nt(n),fl=(x.files||[]).map(function(f,i){return '<div
  (assets?'<div class="fl">'+fl+'</div><label class="up">Upload a file<input type="file" multiple accept=".pdf,.md,.txt,.csv,.json,image/*" data-up="'+n+'"></label>':'')+
  '<span class="ns" id="ns'+n+'" aria-live="polite"></span></div>'}
 function setSt(n,t){var e=$("ns"+n);if(e)e.textContent=t}
-function persist(n){clearTimeout(tm[n]);setSt(n,"Saving…");tm[n]=setTimeout(function(){
- if(db&&uid){db.doc(base+"/w"+n).set(NOTES[n]).then(function(){setSt(n,"Saved")},function(e){setSt(n,"Could not save: "+(e&&e.message||"error"))})}
- else{try{localStorage.setItem("noc-notes",JSON.stringify(NOTES));setSt(n,"Saved in this browser only")}catch(e){setSt(n,"Could not save")}}},600)}
+function persist(n){clearTimeout(tm[n]);setSt(n,"Saving…");try{localStorage.setItem("noc-notes",JSON.stringify(NOTES));setSt(n,db&&uid?"Saved here; syncing…":"Saved on this browser")}catch(e){setSt(n,"Could not save on this browser")}if(db&&uid)tm[n]=setTimeout(function(){db.doc(base+"/w"+n).set(NOTES[n]).then(function(){setSt(n,"Saved")},function(e){setSt(n,"Saved here; cloud sync failed")})},600)}
 $("line").addEventListener("input",function(e){var t=e.target;if(t.dataset.f){nt(t.dataset.n)[t.dataset.f]=t.value;persist(t.dataset.n)}});
 $("line").addEventListener("change",function(e){var t=e.target;if(t.dataset.up&&assets){var n=t.dataset.up;Array.prototype.forEach.call(t.files,function(f){
  setSt(n,"Uploading "+f.name+"…");assets.upload(f).then(function(r){nt(n).files.push({id:r.id,url:r.url,name:f.name});persist(n);draw()},function(er){setSt(n,"Upload failed: "+(er&&er.message||"error"))})})}});
@@ -470,7 +474,7 @@ function checkHtml(n){var i=items(n),lg=S.lg[n]||0;
  function updatePhases(){document.querySelectorAll("[data-phase-card]").forEach(function(card){var i=+card.dataset.phaseCard,ws=W.filter(function(w){return w[1]===i}),finished=ws.filter(function(w){return done(w[0])}).length,total=ws.length,p=Math.round(finished/total*100),state=$("phase-state-"+i),bar=$("phase-bar-"+i),next=$("phase-next-"+i);if(state)state.textContent=finished+" of "+total+" weeks complete";if(bar){bar.style.width=p+"%";bar.parentNode.setAttribute("aria-valuenow",p)}if(next){var left=total-finished;next.textContent=left?left+(left===1?" week":" weeks")+" until phase complete":"Phase complete"}})}
 var curN=1,lastSuggestedWeek=null;
 function updateTimerWeekHint(){var hint=$("timerWeekHint"),w=T.week||+$("weekPicker").value;if(!hint)return;hint.textContent=T.week?"This session is assigned to Week "+T.week+". Finish or log it before changing weeks.":"Time logged will go to Week "+w+". Choose another week above."}
-function syncTimerWeek(nextWeek){var sel=$("weekPicker");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=nextWeek||W[W.length-1][0]}else if(nextWeek&&!T.week&&!T.el&&(lastSuggestedWeek===null||+sel.value===lastSuggestedWeek)){sel.value=nextWeek}if(nextWeek&&!T.week&&!T.el)lastSuggestedWeek=nextWeek;updateTimerWeekHint()}
+function syncTimerWeek(nextWeek){var sel=$("weekPicker");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=T.week||nextWeek||W[W.length-1][0]}else if(nextWeek&&!T.week&&!T.el&&(lastSuggestedWeek===null||+sel.value===lastSuggestedWeek)){sel.value=nextWeek}if(nextWeek&&!T.week&&!T.el)lastSuggestedWeek=nextWeek;updateTimerWeekHint()}
 function dash(){var tot=0,dn=0,tp=0,cur=null,mins=0;
  W.forEach(function(w){var c=cnt(w[0]);tot+=c[1];dn+=c[0];mins+=S.lg[w[0]]||0;if(c[0]>=c[1])tp++;else if(!cur)cur=w});
  $("strip").innerHTML=W.map(function(w){return '<b class="p'+w[1]+(done(w[0])?' done':'')+'"></b>'}).join("");
@@ -492,18 +496,24 @@ function addTask(n){var i=$("ad"+n),v=i&&i.value.trim();if(!v)return;(S.cu[n]=S.
 $("line").addEventListener("click",function(e){var b=e.target.closest("button[data-add]");if(b)addTask(b.dataset.add);
  b=e.target.closest("button[data-cr]");if(b){e.preventDefault();var a=b.dataset.cr.split(":");S.cu[a[0]].splice(+a[1],1);save();draw()}});
 $("line").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id&&e.target.id.indexOf("ad")===0){e.preventDefault();addTask(e.target.id.slice(2))}});
-var T={tot:50,s:3000,el:0,iv:null,week:null};
+var T={tot:50,s:3000,el:0,iv:null,week:null,endAt:0};
 function fmt(s){return ("0"+Math.floor(s/60)).slice(-2)+":"+("0"+s%60).slice(-2)}
+function storeTimer(running){try{localStorage.setItem("noc-timer-v1",JSON.stringify({tot:T.tot,s:T.s,el:T.el,week:T.week,running:!!running,endAt:running?T.endAt:0}))}catch(e){}}
 function lockTimerTarget(locked){$("weekPicker").disabled=locked;Array.prototype.forEach.call($("pre").querySelectorAll("button"),function(b){b.disabled=locked})}
-function pause(){clearInterval(T.iv);T.iv=null;$("tgo").textContent=T.el?"Resume":"Start"}
-function logT(){var m=Math.round(T.el/60);if(m<1){$("tmsg").textContent="Study for at least a minute, then log.";return}
- var w=T.week||+$("weekPicker").value;S.lg[w]=(S.lg[w]||0)+m;T.el=0;T.week=null;T.s=T.tot*60;pause();lockTimerTarget(false);$("tgo").textContent="Start";$("clk").textContent=fmt(T.s);$("tmsg").textContent="Logged "+m+" min to Week "+w+".";updateTimerWeekHint();save();dash();draw()}
+function updateTimerDisplay(){$("clk").textContent=fmt(T.s);updateTimerWeekHint()}
+function refreshTimer(){if(!T.endAt)return;T.s=Math.max(0,Math.ceil((T.endAt-Date.now())/1000));T.el=Math.min(T.tot*60,Math.max(T.el,T.tot*60-T.s));$("clk").textContent=fmt(T.s);storeTimer(true);if(T.s<=0)logT()}
+function restoreTimer(){try{var x=JSON.parse(localStorage.getItem("noc-timer-v1")||"null");if(!x||[25,50,75].indexOf(+x.tot)<0)return;T.tot=+x.tot;T.s=Math.max(0,Math.min(T.tot*60,isFinite(+x.s)?Math.floor(+x.s):T.tot*60));T.el=Math.max(0,Math.min(T.tot*60,isFinite(+x.el)?Math.floor(+x.el):0));T.week=W.some(function(w){return w[0]===+x.week})?+x.week:null;if(x.running&&isFinite(+x.endAt)&&+x.endAt>0){T.endAt=+x.endAt;T.s=Math.max(0,Math.ceil((T.endAt-Date.now())/1000));T.el=Math.min(T.tot*60,Math.max(T.el,T.tot*60-T.s))}}catch(e){}}
+function pause(){clearInterval(T.iv);T.iv=null;if(T.endAt){T.s=Math.max(0,Math.ceil((T.endAt-Date.now())/1000));T.el=Math.min(T.tot*60,Math.max(T.el,T.tot*60-T.s));T.endAt=0}if(T.s<=0&&T.el>=60){logT();return}storeTimer(false);$("tgo").textContent=T.el?"Resume":"Start";updateTimerWeekHint()}
+function logT(){var m=Math.round(T.el/60);if(m<1){$("tmsg").textContent="Study for at least a minute, then log.";return}var w=T.week||+$("weekPicker").value;clearInterval(T.iv);T.iv=null;T.endAt=0;S.lg[w]=(S.lg[w]||0)+m;T.el=0;T.week=null;T.s=T.tot*60;storeTimer(false);lockTimerTarget(false);$("tgo").textContent="Start";$("clk").textContent=fmt(T.s);$("tmsg").textContent="Logged "+m+" min to Week "+w+".";updateTimerWeekHint();save();dash();draw()}
 $("weekPicker").addEventListener("change",updateTimerWeekHint);
-$("tgo").onclick=function(){if(T.iv){pause();return}if(T.s<=0){T.s=T.tot*60;T.el=0;T.week=null}if(!T.week)T.week=+$("weekPicker").value;lockTimerTarget(true);updateTimerWeekHint();$("tgo").textContent="Pause";
- T.iv=setInterval(function(){T.s--;T.el++;$("clk").textContent=fmt(T.s);if(T.s<=0)logT()},1000)};
+$("tgo").onclick=function(){if(T.iv){pause();return}if(T.s<=0){T.s=T.tot*60;T.el=0;T.week=null}if(!T.week)T.week=+$("weekPicker").value;T.endAt=Date.now()+T.s*1000;storeTimer(true);lockTimerTarget(true);updateTimerWeekHint();$("tgo").textContent="Pause";T.iv=setInterval(refreshTimer,1000)};
 $("tlog").onclick=logT;
-$("pre").addEventListener("click",function(e){var m=e.target.dataset.m;if(!m||T.iv||T.el)return;T.tot=+m;T.s=T.tot*60;T.el=0;T.week=null;lockTimerTarget(false);$("clk").textContent=fmt(T.s);$("tgo").textContent="Start";updateTimerWeekHint()});
-draw();
+$("pre").addEventListener("click",function(e){var m=e.target.dataset.m;if(!m||T.iv||T.el)return;T.tot=+m;T.s=T.tot*60;T.el=0;T.week=null;T.endAt=0;storeTimer(false);lockTimerTarget(false);$("clk").textContent=fmt(T.s);$("tgo").textContent="Start";updateTimerWeekHint()});
+function initTimerDisplay(){lockTimerTarget(!!T.week);$("clk").textContent=fmt(T.s);if(T.endAt){if(T.s<=0){logT();return}$("tgo").textContent="Pause";T.iv=setInterval(refreshTimer,1000)}else $("tgo").textContent=T.el?"Resume":"Start";updateTimerWeekHint()}
+function downloadBackup(){var pack={app:"ops-path-roadmap",version:1,exportedAt:new Date().toISOString(),progress:S,notes:NOTES},blob=new Blob([JSON.stringify(pack,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="ops-path-backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);$("backupStatus").textContent="Backup downloaded. Keep the JSON file somewhere safe."}
+$("backupExport").onclick=downloadBackup;
+$("backupInput").addEventListener("change",function(e){var f=e.target.files&&e.target.files[0];if(!f)return;f.text().then(function(text){var pack=JSON.parse(text);if(!pack||pack.app!=="ops-path-roadmap"||pack.version!==1||!pack.progress||typeof pack.progress!=="object"||!pack.notes||typeof pack.notes!=="object")throw new Error("This is not a valid Ops Path backup.");if(!window.confirm("Restore this backup? It will replace the saved progress and notes on this browser.")){$("backupStatus").textContent="Restore cancelled. Your saved data was not changed.";return}mergeS(pack.progress);NOTES=pack.notes;save();localStorage.setItem("noc-notes",JSON.stringify(NOTES));draw();chk();gap();if(db&&uid)Object.keys(NOTES).forEach(persist);$("backupStatus").textContent="Backup restored to this browser."}).catch(function(err){$("backupStatus").textContent=err&&err.message?err.message:"Could not read this backup."}).then(function(){e.target.value=""})});
+restoreTimer();draw();initTimerDisplay();
 if(document.body.dataset.page==="roadmap"&&/^#week\d+$/.test(location.hash)){var startAt=+location.hash.slice(5);setTimeout(function(){jump(startAt)},0)}
 </script>
 </body>
