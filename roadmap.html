@@ -210,6 +210,13 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 @media(max-width:560px){.dash{grid-template-columns:1fr}.dash .tm{grid-column:auto}.hero-facts{flex-wrap:wrap;row-gap:4px}}
 .backup-card{margin:18px 0;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
 .backup-card h2{margin:0 0 8px}.backup-card .sub{margin:0 0 14px}.backup-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.backup-actions .btn{margin:0;cursor:pointer}.backup-card .meta{margin:12px 0 0}/* Small-screen layout */
+.resource-guide{margin:14px 0 22px;padding:16px;border:1px solid var(--line);border-left:4px solid var(--c1);border-radius:14px;background:var(--card)}
+.resource-guide h3{margin:0 0 6px}.resource-guide p{margin:0;color:var(--mut);font-size:14px}
+.resource-guide .resource-sequence{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
+.resource-step{padding:10px;border-radius:10px;background:var(--bg);font-size:13px;color:var(--mut)}.resource-step b{display:block;margin-bottom:2px;color:var(--ink)}
+.resource-guide .cost-note{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.resource-links{display:flex;flex-wrap:wrap;gap:7px}.resource-link{display:inline-flex;align-items:center;min-height:36px;padding:6px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--c0);font-size:13px;font-weight:700;text-decoration:none}
+.resource-link:hover{border-color:var(--c0);text-decoration:underline}
 @media(max-width:680px){
  .dash{grid-template-columns:minmax(0,1fr)}.dash .tm{grid-column:auto}
  .phase-grid,.guide-grid,.portfolio-grid,.ccwrap{grid-template-columns:minmax(0,1fr)}
@@ -217,6 +224,7 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
  .week-picker{min-height:44px}.page-shortcuts a{min-height:40px;display:inline-flex;align-items:center}
 }
 @media(max-width:560px){
+ .resource-guide{padding:13px}.resource-guide .resource-sequence{grid-template-columns:1fr}
  html{scroll-padding-top:104px}section{padding-top:40px;scroll-margin-top:104px}.st[id^="week"]{scroll-margin-top:108px}
  nav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr) auto;grid-template-areas:"brand brand brand theme" "dashboard roadmap career career";gap:4px 3px;padding:8px 10px;overflow:visible;align-items:center}
  nav .brand{grid-area:brand;position:static;margin:0;padding:6px 4px;min-width:0}
@@ -264,6 +272,16 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 <section id="map">
 <h2>Choose a week</h2>
 <p class="sub">Open any week to see its steps, notes, and checklist.</p>
+<aside class="resource-guide" aria-labelledby="resource-guide-title">
+<h3 id="resource-guide-title">Where to get the lessons and labs</h3>
+<p>Since you have a KodeKloud subscription, use the course link inside each week. Sign in if asked, study only the topics listed under “Skills,” then do the course labs. You do not need to finish the whole course at once.</p>
+<div class="resource-sequence">
+<div class="resource-step"><b>1. Learn</b>Watch the matching KodeKloud lessons.</div>
+<div class="resource-step"><b>2. Practice</b>Complete the course labs while the topic is fresh.</div>
+<div class="resource-step"><b>3. Build</b>Do the week’s hands-on task and save its artifact.</div>
+</div>
+<p class="cost-note"><b>AWS practice:</b> Prefer the KodeKloud lab. If you use your own AWS account, check costs and remove the resources when finished.</p>
+</aside>
 <div class="legend" id="legend"></div>
 <div class="line" id="line"></div>
 </section>
@@ -421,6 +439,23 @@ var W=[
 [14,4,"Kubernetes II: failures","CrashLoopBackOff, ImagePullBackOff, Pending, events, resource limits","Kubernetes Challenges (troubleshooting)","Break and fix 5 workloads","k8s-triage-runbook.md","Week 13",5],
 [15,4,"Terraform","Providers, resources, variables, outputs, state, plan/apply/destroy","Terraform Basics Training Course; Terraform Challenges","Rebuild the Week 8–9 VPC, EC2 and S3 in Terraform","terraform/","Week 9",6],
 [16,4,"Capstone and buffer","Integration, failure drills, README","None","Run all 6 failure scenarios and write the RCAs","Finished ops-status repo","All",6]];
+var LR=[
+[["KodeKloud course: Linux basics","https://kodekloud.com/courses/the-linux-basics-course"]],
+[["KodeKloud course: LFCS lessons and labs","https://kodekloud.com/courses/linux-foundation-certified-system-administrator-lfcs"]],
+[["KodeKloud course: networking basics","https://kodekloud.com/courses/devops-pre-requisite-course"]],
+[["KodeKloud course: Shell Scripts for Beginners","https://kodekloud.com/courses/shell-scripts-for-beginners"]],
+[["KodeKloud course: Git for Beginners","https://kodekloud.com/courses/git-for-beginners"],["Free reference: Pro Git book","https://git-scm.com/book/en/v2"]],
+[["KodeKloud course: Docker beginner lessons and labs","https://kodekloud.com/courses/docker-training-course-for-the-absolute-beginner"],["Free reference: Docker Get Started","https://docs.docker.com/get-started/"]],
+[["Continue the KodeKloud Docker course and labs","https://kodekloud.com/courses/docker-training-course-for-the-absolute-beginner"],["Free reference: Docker Get Started","https://docs.docker.com/get-started/"]],
+[["KodeKloud course: EC2 Essentials","https://kodekloud.com/courses/amazon-elastic-compute-cloud-ec2"],["KodeKloud course: AWS Cloud Practitioner (IAM/S3 topics)","https://kodekloud.com/courses/aws-cloud-practitioner-clf-c02"],["Free reference: launch an EC2 instance","https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html"]],
+[["KodeKloud course: AWS Networking Fundamentals","https://kodekloud.com/courses/aws-networking-fundamentals"],["Free reference: build a VPC","https://docs.aws.amazon.com/vpc/latest/userguide/getting-started-with-amazon-vpc-using-the-aws-cli.html"]],
+[["KodeKloud course: Postman Essentials","https://kodekloud.com/courses/postman-essentials"],["Free reference: Postman quick start","https://learning.postman.com/docs/getting-started/quick-start"]],
+[["Free guide: Google SRE Workbook on postmortems","https://sre.google/workbook/postmortem-culture/"]],
+[["KodeKloud course: Prometheus PCA (study basics only)","https://kodekloud.com/courses/prometheus-certified-associate-pca"],["Free reference: Prometheus first steps","https://prometheus.io/docs/introduction/first_steps/"]],
+[["KodeKloud course: Kubernetes for Absolute Beginners","https://kodekloud.com/courses/kubernetes-for-the-absolute-beginners-hands-on-tutorial"],["Free reference: Kubernetes basics","https://kubernetes.io/docs/tutorials/kubernetes-basics/"]],
+[["KodeKloud course: Kubernetes troubleshooting","https://kodekloud.com/courses/kubernetes-troubleshooting-for-application-developers"],["Free reference: debug an application","https://kubernetes.io/docs/tasks/debug/debug-application/"]],
+[["KodeKloud course: Terraform for Beginners","https://kodekloud.com/courses/terraform-for-beginners"],["Free reference: Terraform with AWS","https://developer.hashicorp.com/terraform/tutorials/aws-get-started"]],
+[]];
 var G=[["Linux",2,4,"Critical","Services, logs, disks and permissions are the job."],["Networking",3,4,"Critical","Most incidents look like network problems first."],["Bash",2,4,"High","Automating repetitive operations."],["Git",2,3,"High","Everything you build must be versioned."],["Docker",2,4,"Critical","Named in the job description."],["AWS",1,3,"Critical","EC2, AMIs, S3 and VPC are named in the job description."],["APIs / Postman",2,3,"High","API validation is a stated duty."],["Support and RCA",3,4,"Critical","Your help desk experience is the base."],["Monitoring",2,3,"High","A NOC lives on dashboards and alerts."],["Kubernetes",0,2,"Medium","Read and triage, not administer."],["Terraform",0,2,"Medium","Rebuild infrastructure repeatably."]];
 var R=["Diagnose a failed Linux service in under 15 minutes with systemctl, journalctl and ss","Isolate a network failure to DNS, routing, firewall or the service","Troubleshoot a crashing container from logs, inspect and exit codes","Deploy EC2 with a security group, and create and reuse an AMI","Build a public/private VPC and explain why an instance is unreachable","Write a Postman collection with status, schema and response-time assertions","Analyze logs to build an incident timeline","Write an RCA: root cause, impact, fix, prevention","Automate a repetitive check or backup in Bash and schedule it","Rebuild the capstone infrastructure from zero with Terraform","Read a Kubernetes failure (describe, logs, events) and name the cause"];
 var X=["Ansible","Jenkins and full CI/CD","Helm and Istio","EKS and CKA","Docker Swarm","OpenShift","Azure and GCP","Lambda and serverless","Deep Python or Go","AI and MCP courses","Terraform modules and remote state","Vault and Consul","More security tooling","Certifications beyond LFCS and AWS"];
@@ -442,13 +477,14 @@ function save(){try{localStorage.setItem("noc-roadmap",JSON.stringify(S))}catch(
  try{if(db&&uid)db.doc(base+"/progress").set(S).catch(function(){})}catch(e){}}
 function $(i){return document.getElementById(i)}
 function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function resourceHtml(n){if(n===16)return '<div class="resource-links"><span>No new course: reuse the labs from earlier weeks.</span><a class="resource-link" href="career.html#capstone">Open the capstone guide</a></div>';return '<div class="resource-links">'+(LR[n-1]||[]).map(function(r){return '<a class="resource-link" href="'+esc(r[1])+'" target="_blank" rel="noopener noreferrer">'+esc(r[0])+'</a>'}).join("")+'</div>'}
 $("legend").innerHTML=P.map(function(p,i){return '<span class="p'+i+'">'+p+'</span>'}).join("");
 function draw(){
  var open={};document.querySelectorAll(".st.open").forEach(function(e){open[e.dataset.n]=1});
  $("line").innerHTML=W.map(function(w,i){var n=w[0],d=done(n);
   return '<div id="week'+n+'" class="st p'+w[1]+(i==0?' first':'')+(i==15?' last':'')+(d?' done':'')+(open[n]?' open':'')+'" data-n="'+n+'"><div class="dot">'+(d?'✓':n)+'</div>'+
   '<button type="button" class="hd" aria-expanded="'+(open[n]?'true':'false')+'"><strong>'+esc(w[2])+(w[9]?' <span class="tagc">'+w[9]+'</span>':'')+'</strong><small>Week '+n+', ~'+w[8]+' h · '+Math.round(pct(n)*100)+'%'+(hasNote(n)?' · notes':'')+'</small></button>'+
-  '<div class="bd"><dl><dt>Skills</dt><dd>'+esc(w[3])+'</dd><dt>KodeKloud</dt><dd>'+esc(w[4])+'</dd><dt>Hands-on</dt><dd>'+esc(w[5])+'</dd><dt>Artifact</dt><dd>'+esc(w[6])+'</dd><dt>Builds on</dt><dd>'+esc(w[7])+'</dd></dl>'+
+  '<div class="bd"><dl><dt>Skills</dt><dd>'+esc(w[3])+'</dd><dt>KodeKloud plan</dt><dd>'+esc(w[4])+'</dd><dt>Where to learn</dt><dd>'+resourceHtml(n)+'</dd><dt>Hands-on</dt><dd>'+esc(w[5])+'</dd><dt>Artifact</dt><dd>'+esc(w[6])+'</dd><dt>Builds on</dt><dd>'+esc(w[7])+'</dd></dl>'+ 
   checkHtml(n)+noteHtml(n)+'</div></div>'}).join("");
  dash();
 }
@@ -545,3 +581,4 @@ if(document.body.dataset.page==="roadmap"&&/^#week\d+$/.test(location.hash)){var
 </script>
 </body>
 </html>
+
