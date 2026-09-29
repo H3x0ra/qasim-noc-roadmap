@@ -1,11 +1,12 @@
 # NOC / Systems Engineer — Study Platform
 
-A static, single-page study dashboard for a personal NOC / Systems Engineer learning roadmap. The original Claude Artifact source is preserved in `noc-roadmap.html`. `index.html` is an identical copy that makes the site load from the root when served by a static host such as GitHub Pages.
+A static, single-page study dashboard for a personal NOC / Systems Engineer learning roadmap. The original roadmap, data, and interactive features remain in place. `index.html` is the GitHub Pages entry point; `noc-roadmap.html` remains a matching standalone copy.
 
 ## Files
 
-- `index.html` — static-host entry point; identical to the original HTML source.
-- `noc-roadmap.html` — the original exported Claude Artifact, unchanged.
+- `index.html` — static-host entry point for GitHub Pages.
+- `noc-roadmap.html` — standalone copy of the dashboard.
+- `noc-roadmap-original.html` — untouched copy of the original Claude export, kept as a restore point.
 - `README.md` — project notes and run instructions.
 
 The HTML contains the page structure, styling, roadmap data, inline SVG architecture diagram, and JavaScript. No build step, package manager, or local dependencies are required.
@@ -16,7 +17,13 @@ Open `index.html` in a browser. To serve it over HTTP instead, run `python3 -m h
 
 ## Included features
 
-The dashboard has the 16-week roadmap, expandable weekly plans, study checklists and custom tasks, progress summaries, study timer, skill-gap ratings, readiness checklist, certification cards, and per-week notes. Progress and notes are stored in browser `localStorage`; each origin has separate storage, so data from a `file://` page, localhost, and a hosted domain will not automatically transfer between them.
+The dashboard has the 16-week roadmap, five live phase cards, expandable weekly plans, study checklists and custom tasks, progress summaries, study timer, skill-gap ratings, readiness checklist, certification cards, and per-week notes. New guidance helps turn weekly work into portfolio evidence and gives optional polish ideas that do not add required weeks. Progress and notes are stored in browser `localStorage`; each origin has separate storage, so data from a `file://` page, localhost, and a hosted domain will not automatically transfer between them.
+
+## Study and portfolio guidance
+
+The five phases group the existing weeks: foundations (1–5), container operations (6–7), cloud and APIs (8–10), operations and reliability (11–12), and orchestration and infrastructure as code (13–16). Phase completion is calculated from the existing weekly checklist state.
+
+The portfolio section adds practical finish criteria for project READMEs, runbooks, incident evidence, safe demos, cost notes, and cleanup. Optional ideas are explicitly separated from the 16-week core route.
 
 ## Runtime-specific behavior
 

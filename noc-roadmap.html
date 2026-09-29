@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NOC / Systems Engineer Study Platform</title>
+<meta name="description" content="A hands-on 16-week roadmap from help desk to NOC and systems engineering, with practical labs, portfolio artifacts, and an operations capstone.">
+<meta name="theme-color" content="#0b1422">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -114,14 +116,80 @@ input[type=checkbox]{width:19px;height:19px;margin-top:2px;accent-color:var(--c1
 .tagc{display:inline-block;background:var(--pc);color:#fff;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;margin-left:6px;vertical-align:2px}
 @media(max-width:560px){.sk{grid-template-columns:1fr}.sk b{grid-row:auto}.bd dl{grid-template-columns:1fr;gap:0}.bd dd{margin-bottom:8px}.hd small{display:none}.cdl{grid-template-columns:1fr;gap:0}.cdl dd{margin-bottom:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* Added polish: clearer hierarchy, phase progress, and portfolio guidance. */
+:root{--bg:#f3f6fa;--card:#fff;--ink:#142033;--mut:#596a80;--line:#dbe4ed;--c0:#2563eb;--c1:#087f6d;--c2:#c87908;--c3:#cf4775;--c4:#7657d5}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#081321;--card:#101e2e;--ink:#e9f1fa;--mut:#9aabc0;--line:#26384d;--c0:#72a7ff;--c1:#39d3b0;--c2:#ffc35c;--c3:#ff83ae;--c4:#baa2ff}}
+:root[data-theme="dark"]{--bg:#081321;--card:#101e2e;--ink:#e9f1fa;--mut:#9aabc0;--line:#26384d;--c0:#72a7ff;--c1:#39d3b0;--c2:#ffc35c;--c3:#ff83ae;--c4:#baa2ff}
+html{scroll-padding-top:78px}
+body{background:radial-gradient(ellipse at 92% 0%,rgba(8,127,109,.09),transparent 34rem),var(--bg);letter-spacing:.005em}
+nav{scrollbar-width:none;box-shadow:0 1px 0 rgba(12,24,40,.04)}
+nav::-webkit-scrollbar{display:none}
+nav a{transition:background .18s ease,color .18s ease}
+nav .brand{position:sticky;left:0;z-index:2;background:var(--bg)}
+nav button{position:sticky;right:0;flex:0 0 auto;background:var(--bg);box-shadow:-10px 0 12px var(--bg)}
+main{max-width:1120px}
+section{scroll-margin-top:78px}
+.hero{position:relative;overflow:hidden;padding:clamp(24px,5vw,54px);margin:26px 0 8px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(ellipse at 88% 0%,rgba(8,127,109,.13),transparent 34rem),var(--card);box-shadow:0 18px 50px rgba(15,30,50,.06)}
+.hero:before{content:"";position:absolute;right:-84px;top:-110px;width:280px;height:280px;border-radius:50%;border:1px solid var(--line);box-shadow:0 0 0 28px rgba(127,145,170,.035),0 0 0 58px rgba(127,145,170,.025);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hero h1{max-width:15ch;font-size:clamp(40px,7vw,72px)}
+.hero p{max-width:68ch}
+.eyebrow{display:flex;align-items:center;gap:9px;color:var(--c1);font-size:12px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin:0 0 14px}
+.eyebrow:before{content:"";width:8px;height:8px;background:var(--c1);border-radius:50%;box-shadow:0 0 0 4px color-mix(in srgb,var(--c1) 14%,transparent)}
+.hero-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:-6px 0 22px}
+.hero-actions .btn{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(18,45,75,.12)}
+.btn.quiet{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.hero-facts{display:flex;gap:8px;flex-wrap:wrap;margin:-8px 0 24px}
+.hero-facts span{border:1px solid var(--line);border-radius:999px;padding:5px 10px;color:var(--mut);font-size:13px;font-weight:600;background:rgba(255,255,255,.32)}
+.dash{gap:14px}
+.dash .card,.card,.phase-card{box-shadow:0 8px 24px rgba(15,30,50,.035)}
+.dash .card{border-radius:16px;padding:18px}
+.big{letter-spacing:-.045em}
+.meter{max-width:none}
+.phase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px}
+.phase-card{position:relative;display:flex;flex-direction:column;min-height:285px;overflow:hidden;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:16px;padding:18px;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.phase-card:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(15,30,50,.09)}
+.phase-top,.phase-footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.phase-index{color:var(--pc);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.phase-state{font-size:12px;color:var(--mut);text-align:right}
+.phase-card h3{font-size:22px;margin:13px 0 6px}
+.phase-card>p{color:var(--mut);font-size:14px;margin:0 0 14px}
+.phase-proof{border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+.phase-proof small{display:block;color:var(--mut);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.phase-proof strong{display:block;font-size:13px;margin-top:4px;line-height:1.45}
+.phase-meter{height:6px;margin:14px 0 9px}
+.phase-meter i{background:var(--pc)}
+.phase-footer{align-items:center}
+.phase-footer>span{font-size:12px;color:var(--mut)}
+.phase-footer .btn{margin:0;padding:6px 10px;font-size:12px}
+.guide-grid,.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.guide-card,.portfolio-card{position:relative;padding:18px;border-radius:14px}
+.step-no,.portfolio-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--c1) 12%,var(--card));color:var(--c1);font-weight:800;margin-bottom:12px}
+.guide-card h3,.portfolio-card h3{font-size:18px;margin-bottom:6px}
+.guide-card p,.portfolio-card p{font-size:14px;color:var(--mut);margin:0}
+.portfolio-icon{font-size:14px}
+.idea-box{margin-top:16px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.idea-box h3{font-size:18px;margin-bottom:6px}
+.idea-box>p{margin:0 0 12px;color:var(--mut);font-size:14px}
+.idea-list{display:flex;flex-wrap:wrap;gap:8px}
+.idea-list span{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:13px;color:var(--ink);background:var(--bg)}
+.safety-note{margin-top:14px;border-left:4px solid var(--c2);border-radius:0 12px 12px 0;padding:14px 16px;background:var(--card);color:var(--mut);font-size:14px}
+footer{max-width:1120px;margin:0 auto;padding:0 18px 34px;color:var(--mut);font-size:13px}
+@media(max-width:560px){main{padding:0 14px 56px}.hero{padding:24px 18px;border-radius:18px;margin-top:16px}.hero h1{font-size:clamp(38px,11vw,54px)}.hero-actions{align-items:stretch}.hero-actions .btn{width:100%}.hero-facts{margin-bottom:18px}.phase-grid{grid-template-columns:1fr}.phase-card{min-height:0}.phase-footer{align-items:flex-end}.guide-grid,.portfolio-grid{grid-template-columns:1fr}footer{padding:0 14px 28px}}
+@media(prefers-reduced-motion:reduce){.btn:hover{transform:none}.phase-card:hover{transform:none}}
 </style>
 </head>
 <body>
-<nav aria-label="Sections"><a href="#zone" class="brand">Ops Path</a><a href="#zone">Study zone</a><a href="#map">Route</a><a href="#certs">Certifications</a><a href="#gaps">Skill gaps</a><a href="#rhythm">Rhythm</a><a href="#capstone">Capstone</a><a href="#ready">Readiness</a><a href="#skip">Skip list</a><a href="#next">After</a><button id="tg" type="button">Theme</button></nav>
+<nav aria-label="Sections"><a href="#zone" class="brand">Ops Path</a><a href="#zone">Study zone</a><a href="#journey">Journey</a><a href="#map">Route</a><a href="#portfolio">Portfolio</a><a href="#certs">Certifications</a><a href="#gaps">Skill gaps</a><a href="#rhythm">Rhythm</a><a href="#capstone">Capstone</a><a href="#ready">Readiness</a><a href="#skip">Skip list</a><a href="#next">After</a><button id="tg" type="button">Theme</button></nav>
 <main>
 <header class="hero">
+<div class="eyebrow">Personal NOC / Systems Engineer roadmap</div>
 <h1>From help desk to running production.</h1>
 <p>A 16-week route to NOC / Systems Engineer: Linux, networking, Docker, AWS, APIs, monitoring, Kubernetes and Terraform. About 6 hours a week, built to survive busy weeks — with your own notes, progress and two optional certifications tracked along the way.</p>
+<div class="hero-actions"><a class="btn" href="#journey">Explore the five phases <span aria-hidden="true">→</span></a><a class="btn quiet" href="#map">Start with Week 1</a></div>
+<div class="hero-facts"><span>16 guided weeks</span><span>~96 planned hours</span><span>1 deployable capstone</span></div>
 <div class="strip" id="strip" aria-hidden="true"></div>
 <div class="dash" id="zone">
 <div class="card"><div class="big" id="dpct">0%</div><p id="dsub"></p><div class="meter"><i id="dbar"></i></div><p class="meta">Saved automatically</p></div>
@@ -134,6 +202,30 @@ input[type=checkbox]{width:19px;height:19px;margin-top:2px;accent-color:var(--c1
 <p class="meta" id="tmsg"></p></div>
 </div>
 </header>
+
+<section id="journey">
+<div class="eyebrow">The learning path</div>
+<h2>Five phases. One job-ready portfolio.</h2>
+<p class="sub">Follow the sequence, finish the weekly proof, then carry the strongest work into the Ops-Status capstone. Phase progress updates from your saved checklist.</p>
+<div class="phase-grid">
+<article class="phase-card p0" data-phase-card="0"><div class="phase-top"><span class="phase-index">Phase 01</span><span class="phase-state" id="phase-state-0">0 of 5 weeks complete</span></div><h3>Foundations</h3><p>Build confidence in Linux, networking, Bash, and Git before adding infrastructure.</p><div class="phase-proof"><small>Portfolio proof</small><strong>Linux triage runbook · network decision tree · operations scripts</strong></div><div class="meter phase-meter" role="progressbar" aria-label="Foundations phase completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="phase-bar-0"></i></div><div class="phase-footer"><span id="phase-next-0">Weeks 1–5</span><button class="btn quiet" type="button" data-jump="1">Open phase →</button></div></article>
+<article class="phase-card p1" data-phase-card="1"><div class="phase-top"><span class="phase-index">Phase 02</span><span class="phase-state" id="phase-state-1">0 of 2 weeks complete</span></div><h3>Container operations</h3><p>Package a service, understand its boundaries, and troubleshoot common failure modes.</p><div class="phase-proof"><small>Portfolio proof</small><strong>Docker Compose stack · container triage runbook</strong></div><div class="meter phase-meter" role="progressbar" aria-label="Container operations phase completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="phase-bar-1"></i></div><div class="phase-footer"><span id="phase-next-1">Weeks 6–7</span><button class="btn quiet" type="button" data-jump="6">Open phase →</button></div></article>
+<article class="phase-card p2" data-phase-card="2"><div class="phase-top"><span class="phase-index">Phase 03</span><span class="phase-state" id="phase-state-2">0 of 3 weeks complete</span></div><h3>Cloud and APIs</h3><p>Deploy into AWS, reason through network paths, and verify service behavior with tests.</p><div class="phase-proof"><small>Portfolio proof</small><strong>VPC diagram · EC2 notes · tested Postman collection</strong></div><div class="meter phase-meter" role="progressbar" aria-label="Cloud and APIs phase completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="phase-bar-2"></i></div><div class="phase-footer"><span id="phase-next-2">Weeks 8–10</span><button class="btn quiet" type="button" data-jump="8">Open phase →</button></div></article>
+<article class="phase-card p3" data-phase-card="3"><div class="phase-top"><span class="phase-index">Phase 04</span><span class="phase-state" id="phase-state-3">0 of 2 weeks complete</span></div><h3>Operations and reliability</h3><p>Turn break-fix work into clear incident records, useful dashboards, and actionable alerts.</p><div class="phase-proof"><small>Portfolio proof</small><strong>Incident timeline · RCAs · monitoring dashboard</strong></div><div class="meter phase-meter" role="progressbar" aria-label="Operations and reliability phase completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="phase-bar-3"></i></div><div class="phase-footer"><span id="phase-next-3">Weeks 11–12</span><button class="btn quiet" type="button" data-jump="11">Open phase →</button></div></article>
+<article class="phase-card p4" data-phase-card="4"><div class="phase-top"><span class="phase-index">Phase 05</span><span class="phase-state" id="phase-state-4">0 of 4 weeks complete</span></div><h3>Orchestrate and codify</h3><p>Practice Kubernetes triage, rebuild cloud resources with Terraform, and integrate the capstone.</p><div class="phase-proof"><small>Portfolio proof</small><strong>Kubernetes manifests · Terraform project · Ops-Status capstone</strong></div><div class="meter phase-meter" role="progressbar" aria-label="Orchestrate and codify phase completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="phase-bar-4"></i></div><div class="phase-footer"><span id="phase-next-4">Weeks 13–16</span><button class="btn quiet" type="button" data-jump="13">Open phase →</button></div></article>
+</div>
+</section>
+
+<section id="guide">
+<div class="eyebrow">A repeatable study loop</div>
+<h2>Make every session produce proof.</h2>
+<p class="sub">The goal is not to finish lessons quickly. It is to be able to repeat the work, explain the decisions, and show what you built.</p>
+<div class="guide-grid">
+<article class="card guide-card"><span class="step-no">01</span><h3>Follow the next stop</h3><p>Use the dashboard’s “Next up” card, then open that week’s plan and keep the order unless you need the built-in catch-up rule.</p></article>
+<article class="card guide-card"><span class="step-no">02</span><h3>Rebuild without notes</h3><p>After the lesson and lab, repeat the core task from a clean state. Write down where you got stuck and what fixed it.</p></article>
+<article class="card guide-card"><span class="step-no">03</span><h3>Save evidence in Git</h3><p>Commit one useful artifact each week: a script, diagram, test collection, runbook, dashboard, or short incident report.</p></article>
+</div>
+</section>
 
 <section id="map">
 <h2>The route</h2>
@@ -207,6 +299,20 @@ input[type=checkbox]{width:19px;height:19px;margin-top:2px;accent-color:var(--c1
 └─ docs/       architecture.md  runbooks/  rca/RCA-001 … RCA-006</pre></div>
 </section>
 
+<section id="portfolio">
+<div class="eyebrow">Make the work reviewable</div>
+<h2>Turn labs into a professional portfolio.</h2>
+<p class="sub">Reuse the deliverables already in the 16-week route. These finishing touches make your work easier for a teammate or interviewer to understand.</p>
+<div class="portfolio-grid">
+<article class="card portfolio-card"><span class="portfolio-icon">01</span><h3>A clear project README</h3><p>Explain the problem, architecture, prerequisites, run steps, expected result, and cleanup command. Add a short table of contents when it grows.</p></article>
+<article class="card portfolio-card"><span class="portfolio-icon">02</span><h3>Runbooks that guide action</h3><p>For each failure, capture symptoms, checks in order, expected healthy output, recovery steps, and how to confirm service is restored.</p></article>
+<article class="card portfolio-card"><span class="portfolio-icon">03</span><h3>Incident stories with evidence</h3><p>Record impact, a timestamped timeline, root cause, mitigation, and prevention. Tie each conclusion to a log, metric, or test.</p></article>
+<article class="card portfolio-card"><span class="portfolio-icon">04</span><h3>Safe, repeatable demos</h3><p>Use sample data and sanitized screenshots. Include a cost note, budget guardrail, and teardown steps for cloud resources.</p></article>
+</div>
+<div class="idea-box"><h3>Optional polish after the core route</h3><p>Small additions that strengthen the same work without expanding the 16-week plan:</p><div class="idea-list"><span>Record a 2-minute capstone walkthrough</span><span>Add one automated API smoke check</span><span>Include a simple cost estimate</span><span>Write an incident handoff summary</span><span>Show a clean teardown and rebuild</span></div></div>
+<div class="safety-note"><b>Keep public work safe:</b> never commit credentials, private keys, account IDs, real customer data, or unrestricted IP ranges. Use least-privilege access and remove cloud resources after each lab.</div>
+</section>
+
 <section id="ready">
 <h2>Readiness</h2>
 <p class="sub">No exam. You are ready when you can do each of these on a fresh environment, unaided.</p>
@@ -225,6 +331,7 @@ input[type=checkbox]{width:19px;height:19px;margin-top:2px;accent-color:var(--c1
 <div class="lad" id="lad"></div>
 </section>
 </main>
+<footer>Built for steady progress and practical proof. Checklist progress and notes stay in this browser; they are not committed to the public repository.</footer>
 
 <script>
 var P=["Foundations","Containers","Cloud and APIs","Operations","Orchestrate and codify"];
@@ -324,7 +431,8 @@ function checkHtml(n){var i=items(n),lg=S.lg[n]||0;
  i.st.map(function(v,k){return '<label class="ck'+(v?' d':'')+'"><input type="checkbox" data-s="'+n+':'+k+'"'+(v?' checked':'')+'><span>'+STEPS[k]+'</span></label>'}).join("")+
  i.cu.map(function(c,k){return '<label class="ck'+(c.d?' d':'')+'"><input type="checkbox" data-c="'+n+':'+k+'"'+(c.d?' checked':'')+'><span>'+esc(c.t)+'</span><button type="button" data-cr="'+n+':'+k+'" aria-label="Remove task">Remove</button></label>'}).join("")+
  '<div class="ad"><input type="text" id="ad'+n+'" placeholder="Add your own task" maxlength="120" aria-label="Add your own task"><button type="button" class="btn g" data-add="'+n+'" style="margin:0">Add</button></div></div>'}
-var curN=1;
+ function updatePhases(){document.querySelectorAll("[data-phase-card]").forEach(function(card){var i=+card.dataset.phaseCard,ws=W.filter(function(w){return w[1]===i}),finished=ws.filter(function(w){return done(w[0])}).length,total=ws.length,p=Math.round(finished/total*100),state=$("phase-state-"+i),bar=$("phase-bar-"+i),next=$("phase-next-"+i);if(state)state.textContent=finished+" of "+total+" weeks complete";if(bar){bar.style.width=p+"%";bar.parentNode.setAttribute("aria-valuenow",p)}if(next){var left=total-finished;next.textContent=left?left+(left===1?" week":" weeks")+" until phase complete":"Phase complete"}})}
+ var curN=1;
 function dash(){var tot=0,dn=0,tp=0,cur=null,mins=0;
  W.forEach(function(w){var c=cnt(w[0]);tot+=c[1];dn+=c[0];mins+=S.lg[w[0]]||0;if(c[0]>=c[1])tp++;else if(!cur)cur=w});
  $("strip").innerHTML=W.map(function(w){return '<b class="p'+w[1]+(done(w[0])?' done':'')+'"></b>'}).join("");
@@ -332,7 +440,7 @@ function dash(){var tot=0,dn=0,tp=0,cur=null,mins=0;
  if(cur){curN=cur[0];var i=items(cur[0]),k=i.st.indexOf(0),nx=k>=0?STEPS[k]:(i.cu.filter(function(c){return !c.d})[0]||{t:"Finish your extra tasks"}).t;
   $("dnext").textContent="Week "+cur[0]+", "+cur[2]+". Next: "+nx+"."}else{$("dnext").textContent="All 16 weeks complete. Rebuild the capstone from zero."}
  $("dhrs").textContent=hm(mins);$("dwk").textContent="Plan: about 96 hours over 16 weeks";
- var sel=$("tw");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=curN}}
+  var sel=$("tw");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=curN}updatePhases()}
 function jump(n){var e=document.querySelector('.st[data-n="'+n+'"]');if(!e)return;e.classList.add("open");e.querySelector(".hd").setAttribute("aria-expanded","true");e.scrollIntoView({behavior:"smooth",block:"start"})}
 $("go").onclick=function(){jump(curN)};
 document.addEventListener("click",function(e){var b=e.target.closest("button[data-jump]");if(b)jump(+b.dataset.jump)});
@@ -356,4 +464,3 @@ draw();
 </script>
 </body>
 </html>
-
