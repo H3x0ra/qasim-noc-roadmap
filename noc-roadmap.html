@@ -209,7 +209,34 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 @media(max-width:560px){nav{gap:5px}nav a[data-page-link]{padding:7px 9px}.page-intro{margin-top:16px;padding:22px 18px;border-radius:17px}}
 @media(max-width:560px){.dash{grid-template-columns:1fr}.dash .tm{grid-column:auto}.hero-facts{flex-wrap:wrap;row-gap:4px}}
 .backup-card{margin:18px 0;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
-.backup-card h2{margin:0 0 8px}.backup-card .sub{margin:0 0 14px}.backup-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.backup-actions .btn{margin:0;cursor:pointer}.backup-card .meta{margin:12px 0 0}</style>
+.backup-card h2{margin:0 0 8px}.backup-card .sub{margin:0 0 14px}.backup-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.backup-actions .btn{margin:0;cursor:pointer}.backup-card .meta{margin:12px 0 0}/* Small-screen layout */
+@media(max-width:680px){
+ .dash{grid-template-columns:minmax(0,1fr)}.dash .tm{grid-column:auto}
+ .phase-grid,.guide-grid,.portfolio-grid,.ccwrap{grid-template-columns:minmax(0,1fr)}
+ .dash>.card,.phase-grid>*,.guide-grid>*,.portfolio-grid>*,.ccwrap>*,.rt>*{min-width:0}
+ .week-picker{min-height:44px}.page-shortcuts a{min-height:40px;display:inline-flex;align-items:center}
+}
+@media(max-width:560px){
+ html{scroll-padding-top:104px}section{padding-top:40px;scroll-margin-top:104px}.st[id^="week"]{scroll-margin-top:108px}
+ nav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr) auto;grid-template-areas:"brand brand brand theme" "dashboard roadmap career career";gap:4px 3px;padding:8px 10px;overflow:visible;align-items:center}
+ nav .brand{grid-area:brand;position:static;margin:0;padding:6px 4px;min-width:0}
+ nav a[data-page-link="dashboard"]{grid-area:dashboard}nav a[data-page-link="roadmap"]{grid-area:roadmap}nav a[data-page-link="career"]{grid-area:career}
+ nav a[data-page-link]{justify-self:stretch;text-align:center;padding:7px 4px;font-size:12px;min-width:0}
+ nav button{grid-area:theme;position:static;justify-self:end;margin:0;padding:6px 9px;box-shadow:none;min-height:36px}
+ main{padding:0 12px 44px}section{padding-top:40px}
+ .hero{padding:21px 16px;border-radius:18px;margin:14px 0 8px}.hero h1{font-size:clamp(34px,10vw,46px);max-width:12ch}.page-intro{padding:19px 15px}
+ .page-intro h1{font-size:clamp(31px,8vw,42px)}.page-shortcuts{gap:6px}.page-shortcuts a{padding:6px 9px;font-size:12px}
+ .hero p,.page-intro p{font-size:16px}.hero-actions .btn{min-height:44px}.hero-facts{row-gap:4px;margin-bottom:16px}
+ .card{padding:14px}.week-choice .btn{width:100%;min-height:44px}.week-picker{font-size:16px}
+ .clock{font-size:40px}.pre button,.tm button{min-height:42px}
+ .line{margin-left:7px}.st{padding-left:42px}.hd{padding:11px 10px;gap:7px}.hd strong{font-size:17px}.bd{padding:4px 11px 13px}.bd dd{overflow-wrap:anywhere}
+ .tbl{max-width:100%}.sk{padding:11px 10px}.lv button{width:32px;height:32px}
+ .wrap{max-width:100%;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+ .backup-card{padding:16px}.backup-actions .btn{flex:1 1 140px;justify-content:center;min-height:44px}
+ footer{padding:0 12px 28px;line-height:1.6}
+ button,a,.up{touch-action:manipulation}
+}
+@media(max-width:360px){nav a[data-page-link]{font-size:11px;padding-inline:2px}.hero h1{font-size:32px}.clock{font-size:36px}.st{padding-left:39px}}</style>
 </head>
 <body data-page="dashboard">
 <nav aria-label="Main navigation"><a href="index.html" class="brand">Ops Path</a><a href="index.html#zone" data-page-link="dashboard" aria-current="page">Dashboard</a><a href="roadmap.html#map" data-page-link="roadmap">Roadmap</a><a href="career.html" data-page-link="career">Career &amp; Portfolio</a><button id="tg" type="button">Theme</button></nav>

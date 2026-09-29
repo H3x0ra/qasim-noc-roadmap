@@ -10,7 +10,7 @@ A static study platform for a personal NOC / Systems Engineer learning roadmap. 
 - `noc-roadmap.html` — matching Dashboard copy retained for compatibility.
 - `noc-roadmap-original.html` — untouched copy of the original Claude export.
 
-The pages are self-contained HTML files with inline styling, roadmap data, the architecture diagram, and JavaScript. No build step, package manager, or local dependencies are required.
+The pages are self-contained HTML files with inline styling, roadmap data, the architecture diagram, and JavaScript. The layout adapts to phone, tablet, and desktop screens. No build step, package manager, or local dependencies are required.
 
 ## Run locally
 
