@@ -24,6 +24,8 @@ The timer saves its duration, selected week, and running or paused state in this
 
 The Roadmap opens on the weekly list. Its five-phase overview and study tips remain available below the route. The Career & Portfolio page keeps the original certification and role-readiness guidance and adds practical finish criteria for project READMEs, runbooks, incident evidence, safe demos, cost notes, and cleanup.
 
+The Roadmap now has a short “Where to get the lessons and labs” guide. Open a week to find its direct KodeKloud course link and any useful free reference. Follow the week’s Skills, complete the course labs, then build the listed hands-on artifact. Week 16 is a project week, so it points back to the capstone brief instead of adding another course.
+
 ## Saved data and backups
 
 Progress and notes use this browser's local storage and are shared by the three pages on the hosted site. Notes save immediately as you type. GitHub Pages serves static files and does not provide a user account or database, so data does not automatically sync to another browser or device.
@@ -35,3 +37,4 @@ The original Claude artifact checks for `window.claude` APIs. File uploads and C
 ## Static hosting
 
 `index.html` is at the repository root. The GitHub Pages workflow publishes the root directly, including `roadmap.html` and `career.html`.
+
