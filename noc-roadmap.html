@@ -193,34 +193,53 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 .timer-target-label{display:block;margin:11px 0 5px;color:var(--mut);font-size:12px;font-weight:700}
 #timerWeekHint{min-height:1.4em}
 .st[id^="week"]{scroll-margin-top:86px}
+.page-dashboard .hero>p{max-width:55ch;font-size:17px}
+.hero-facts{gap:0;margin:-6px 0 22px;color:var(--mut)}
+.hero-facts span{border:0;border-radius:0;padding:0;background:transparent;font-weight:500}
+.hero-facts span+span:before{content:"·";padding:0 8px;color:var(--line)}
+.dash{grid-template-columns:minmax(200px,.85fr) minmax(260px,1.15fr);gap:14px}
+.dash .tm{grid-column:1/-1}
+.week-choice-label{display:block;margin-top:14px;color:var(--mut);font-size:13px;font-weight:700}
+.week-picker{display:block;width:100%;max-width:100%;margin-top:6px;padding:9px 10px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;font:14px Figtree,sans-serif}
+.week-choice .btn{margin-top:8px}
+.tm .timer-target-label{margin-top:12px}
+.roadmap-extra{margin-top:18px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.roadmap-extra summary{cursor:pointer;font-weight:700;color:var(--ink)}
+.roadmap-extra[open] summary{margin-bottom:16px}
 @media(max-width:560px){nav{gap:5px}nav a[data-page-link]{padding:7px 9px}.page-intro{margin-top:16px;padding:22px 18px;border-radius:17px}}
+@media(max-width:560px){.dash{grid-template-columns:1fr}.dash .tm{grid-column:auto}.hero-facts{flex-wrap:wrap;row-gap:4px}}
 </style>
 </head>
 <body data-page="dashboard">
-<nav aria-label="Main navigation"><a href="index.html" class="brand">Ops Path</a><a href="index.html#zone" data-page-link="dashboard" aria-current="page">Dashboard</a><a href="roadmap.html#journey" data-page-link="roadmap">Roadmap</a><a href="career.html" data-page-link="career">Career &amp; Portfolio</a><button id="tg" type="button">Theme</button></nav>
+<nav aria-label="Main navigation"><a href="index.html" class="brand">Ops Path</a><a href="index.html#zone" data-page-link="dashboard" aria-current="page">Dashboard</a><a href="roadmap.html#map" data-page-link="roadmap">Roadmap</a><a href="career.html" data-page-link="career">Career &amp; Portfolio</a><button id="tg" type="button">Theme</button></nav>
 <main>
 <div class="page-view page-dashboard">
 <header class="hero">
 <div class="eyebrow">Personal NOC / Systems Engineer roadmap</div>
 <h1>From help desk to running production.</h1>
-<p>A 16-week route to NOC / Systems Engineer: Linux, networking, Docker, AWS, APIs, monitoring, Kubernetes and Terraform. About 6 hours a week, built to survive busy weeks — with your own notes, progress and two optional certifications tracked along the way.</p>
-<div class="hero-actions"><a class="btn" href="roadmap.html#journey">Explore the five phases <span aria-hidden="true">→</span></a><button class="btn quiet" id="startNextWeek" type="button">Start with Week 1</button></div>
+<p>A simple 16-week plan. Finish one week at a time; your progress saves as you go.</p>
+<div class="hero-actions"><button class="btn" id="startNextWeek" type="button">Start with Week 1</button></div>
 <div class="hero-facts"><span>16 guided weeks</span><span>~96 planned hours</span><span>1 deployable capstone</span></div>
 <div class="strip" id="strip" aria-hidden="true"></div>
 <div class="dash" id="zone">
-<div class="card"><div class="big" id="dpct">0%</div><p id="dsub"></p><div class="meter"><i id="dbar"></i></div><p class="meta">Saved automatically</p></div>
-<div class="card"><h3>Next up</h3><p id="dnext"></p><button class="btn" id="go" type="button">Open this week</button></div>
-<div class="card"><h3>Time logged</h3><div class="big" id="dhrs">0h</div><p id="dwk"></p></div>
-<div class="card tm"><h3>Study session</h3><div class="clock" id="clk" aria-live="off">50:00</div>
+<div class="card"><h3>Your progress</h3><div class="big" id="dpct">0%</div><p id="dsub"></p><div class="meter"><i id="dbar"></i></div><p class="meta"><span id="dhrs">0h 0m</span> logged · saved in this browser</p><p class="meta" id="dwk"></p></div>
+<div class="card week-choice"><h3>Next up</h3><p id="dnext"></p><label class="week-choice-label" for="weekPicker">Choose any week</label><select class="week-picker" id="weekPicker" aria-label="Choose a week"></select><button class="btn" id="go" type="button">Open selected week</button></div>
+<div class="card tm"><h3>Study timer</h3><div class="clock" id="clk" aria-live="off">50:00</div>
 <div class="pre" id="pre"><button type="button" data-m="25">25</button><button type="button" data-m="50">50</button><button type="button" data-m="75">75</button></div>
-<label class="timer-target-label" for="tw">Log this session to</label><select id="tw" aria-label="Log time to week"></select>
 <div class="pre"><button type="button" class="btn" id="tgo" style="margin:0">Start</button><button type="button" id="tlog">Log time</button></div>
-<p class="meta" id="timerWeekHint">Time you log is added to the selected week.</p><p class="meta" id="tmsg" aria-live="polite"></p></div>
+<p class="meta" id="timerWeekHint">Time you log will be added to the selected week.</p><p class="meta" id="tmsg" aria-live="polite"></p></div>
 </div>
 </header>
 </div>
 
 <div class="page-view page-roadmap">
+<section id="map">
+<h2>Choose a week</h2>
+<p class="sub">Open any week to see its steps, notes, and checklist.</p>
+<div class="legend" id="legend"></div>
+<div class="line" id="line"></div>
+</section>
+<details class="roadmap-extra"><summary>View the five phases and study tips</summary>
 <section id="journey">
 <div class="eyebrow">The learning path</div>
 <h2>Five phases. One job-ready portfolio.</h2>
@@ -245,12 +264,7 @@ body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="ro
 </div>
 </section>
 
-<section id="map">
-<h2>The route</h2>
-<p class="sub">Each week ends with an artifact in your Git repo. Open a stop to read the plan, write what you did and what is left, and attach files.</p>
-<div class="legend" id="legend"></div>
-<div class="line" id="line"></div>
-</section>
+</details>
 </div>
 
 <div class="page-view page-career">
@@ -455,21 +469,21 @@ function checkHtml(n){var i=items(n),lg=S.lg[n]||0;
  '<div class="ad"><input type="text" id="ad'+n+'" placeholder="Add your own task" maxlength="120" aria-label="Add your own task"><button type="button" class="btn g" data-add="'+n+'" style="margin:0">Add</button></div></div>'}
  function updatePhases(){document.querySelectorAll("[data-phase-card]").forEach(function(card){var i=+card.dataset.phaseCard,ws=W.filter(function(w){return w[1]===i}),finished=ws.filter(function(w){return done(w[0])}).length,total=ws.length,p=Math.round(finished/total*100),state=$("phase-state-"+i),bar=$("phase-bar-"+i),next=$("phase-next-"+i);if(state)state.textContent=finished+" of "+total+" weeks complete";if(bar){bar.style.width=p+"%";bar.parentNode.setAttribute("aria-valuenow",p)}if(next){var left=total-finished;next.textContent=left?left+(left===1?" week":" weeks")+" until phase complete":"Phase complete"}})}
 var curN=1,lastSuggestedWeek=null;
-function updateTimerWeekHint(){var hint=$("timerWeekHint"),w=T.week||+$("tw").value;if(!hint)return;hint.textContent=T.week?"Timer session is assigned to Week "+T.week+". Finish or log it before switching weeks.":"Time you log will be added to Week "+w+"."}
-function syncTimerWeek(nextWeek){var sel=$("tw");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=nextWeek||W[W.length-1][0]}else if(nextWeek&&!T.week&&!T.el&&(lastSuggestedWeek===null||+sel.value===lastSuggestedWeek)){sel.value=nextWeek}if(nextWeek&&!T.week&&!T.el)lastSuggestedWeek=nextWeek;updateTimerWeekHint()}
+function updateTimerWeekHint(){var hint=$("timerWeekHint"),w=T.week||+$("weekPicker").value;if(!hint)return;hint.textContent=T.week?"This session is assigned to Week "+T.week+". Finish or log it before changing weeks.":"Time logged will go to Week "+w+". Choose another week above."}
+function syncTimerWeek(nextWeek){var sel=$("weekPicker");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=nextWeek||W[W.length-1][0]}else if(nextWeek&&!T.week&&!T.el&&(lastSuggestedWeek===null||+sel.value===lastSuggestedWeek)){sel.value=nextWeek}if(nextWeek&&!T.week&&!T.el)lastSuggestedWeek=nextWeek;updateTimerWeekHint()}
 function dash(){var tot=0,dn=0,tp=0,cur=null,mins=0;
  W.forEach(function(w){var c=cnt(w[0]);tot+=c[1];dn+=c[0];mins+=S.lg[w[0]]||0;if(c[0]>=c[1])tp++;else if(!cur)cur=w});
  $("strip").innerHTML=W.map(function(w){return '<b class="p'+w[1]+(done(w[0])?' done':'')+'"></b>'}).join("");
  $("dpct").textContent=Math.round(dn/tot*100)+"%";$("dbar").style.width=(dn/tot*100)+"%";$("dsub").textContent=tp+" of 16 weeks complete";
  if(cur){curN=cur[0];var i=items(cur[0]),k=i.st.indexOf(0),nx=k>=0?STEPS[k]:(i.cu.filter(function(c){return !c.d})[0]||{t:"Finish your extra tasks"}).t;
   $("startNextWeek").textContent="Start with Week "+cur[0];
-  $("dnext").textContent="Week "+cur[0]+", "+cur[2]+". Next: "+nx+".";$("go").textContent="Open this week"}else{$("dnext").textContent="All 16 weeks complete. Rebuild the capstone from zero.";$("go").textContent="Review capstone"}
+  $("dnext").textContent="Week "+cur[0]+", "+cur[2]+". Next: "+nx+".";$("go").textContent="Open selected week"}else{$("dnext").textContent="All 16 weeks complete. Rebuild the capstone from zero.";$("go").textContent="Open selected week"}
  if(!cur){curN=null;$("startNextWeek").textContent="Review your capstone"}
  $("dhrs").textContent=hm(mins);$("dwk").textContent="Plan: about 96 hours over 16 weeks";
   syncTimerWeek(curN);updatePhases()}
 function jump(n){if(document.body.dataset.page!=="roadmap"){window.location.href="roadmap.html#week"+n;return}var e=document.querySelector('.st[data-n="'+n+'"]');if(!e)return;e.classList.add("open");e.querySelector(".hd").setAttribute("aria-expanded","true");e.scrollIntoView({behavior:"smooth",block:"start"})}
 $("startNextWeek").onclick=function(){if(curN)jump(curN);else window.location.href="career.html#capstone"};
-$("go").onclick=function(){if(curN)jump(curN);else window.location.href="career.html#capstone"};
+$("go").onclick=function(){var n=+$("weekPicker").value;if(n)jump(n)};
 document.addEventListener("click",function(e){var b=e.target.closest("button[data-jump]");if(b)jump(+b.dataset.jump)});
 $("line").addEventListener("change",function(e){var t=e.target,a,n;
  if(t.dataset.s){a=t.dataset.s.split(":");n=a[0];var st=items(n).st.slice();st[a[1]]=t.checked?1:0;S.st[n]=st;save();draw()}
@@ -480,12 +494,12 @@ $("line").addEventListener("click",function(e){var b=e.target.closest("button[da
 $("line").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id&&e.target.id.indexOf("ad")===0){e.preventDefault();addTask(e.target.id.slice(2))}});
 var T={tot:50,s:3000,el:0,iv:null,week:null};
 function fmt(s){return ("0"+Math.floor(s/60)).slice(-2)+":"+("0"+s%60).slice(-2)}
-function lockTimerTarget(locked){$("tw").disabled=locked;Array.prototype.forEach.call($("pre").querySelectorAll("button"),function(b){b.disabled=locked})}
+function lockTimerTarget(locked){$("weekPicker").disabled=locked;Array.prototype.forEach.call($("pre").querySelectorAll("button"),function(b){b.disabled=locked})}
 function pause(){clearInterval(T.iv);T.iv=null;$("tgo").textContent=T.el?"Resume":"Start"}
 function logT(){var m=Math.round(T.el/60);if(m<1){$("tmsg").textContent="Study for at least a minute, then log.";return}
- var w=T.week||+$("tw").value;S.lg[w]=(S.lg[w]||0)+m;T.el=0;T.week=null;T.s=T.tot*60;pause();lockTimerTarget(false);$("tgo").textContent="Start";$("clk").textContent=fmt(T.s);$("tmsg").textContent="Logged "+m+" min to Week "+w+".";updateTimerWeekHint();save();dash();draw()}
-$("tw").addEventListener("change",updateTimerWeekHint);
-$("tgo").onclick=function(){if(T.iv){pause();return}if(T.s<=0){T.s=T.tot*60;T.el=0;T.week=null}if(!T.week)T.week=+$("tw").value;lockTimerTarget(true);updateTimerWeekHint();$("tgo").textContent="Pause";
+ var w=T.week||+$("weekPicker").value;S.lg[w]=(S.lg[w]||0)+m;T.el=0;T.week=null;T.s=T.tot*60;pause();lockTimerTarget(false);$("tgo").textContent="Start";$("clk").textContent=fmt(T.s);$("tmsg").textContent="Logged "+m+" min to Week "+w+".";updateTimerWeekHint();save();dash();draw()}
+$("weekPicker").addEventListener("change",updateTimerWeekHint);
+$("tgo").onclick=function(){if(T.iv){pause();return}if(T.s<=0){T.s=T.tot*60;T.el=0;T.week=null}if(!T.week)T.week=+$("weekPicker").value;lockTimerTarget(true);updateTimerWeekHint();$("tgo").textContent="Pause";
  T.iv=setInterval(function(){T.s--;T.el++;$("clk").textContent=fmt(T.s);if(T.s<=0)logT()},1000)};
 $("tlog").onclick=logT;
 $("pre").addEventListener("click",function(e){var m=e.target.dataset.m;if(!m||T.iv||T.el)return;T.tot=+m;T.s=T.tot*60;T.el=0;T.week=null;lockTimerTarget(false);$("clk").textContent=fmt(T.s);$("tgo").textContent="Start";updateTimerWeekHint()});

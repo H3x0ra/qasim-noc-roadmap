@@ -5,7 +5,7 @@ A static study platform for a personal NOC / Systems Engineer learning roadmap. 
 ## Files
 
 - `index.html` — Dashboard and GitHub Pages entry point.
-- `roadmap.html` — five learning phases and the complete 16-week route.
+- `roadmap.html` — the complete 16-week route, with the phase overview and study tips available below it.
 - `career.html` — portfolio guidance, certifications, skill gaps, study rhythm, capstone, readiness checklist, and next steps.
 - `noc-roadmap.html` — matching Dashboard copy retained for compatibility.
 - `noc-roadmap-original.html` — untouched copy of the original Claude export, kept as a restore point.
@@ -19,9 +19,11 @@ From this folder, run `python3 -m http.server 8000` and open `http://localhost:8
 
 ## Included features
 
-The platform retains the 16-week roadmap, expandable weekly plans, study checklists and custom tasks, progress summaries, study timer, skill-gap ratings, readiness checklist, certification cards, and per-week notes. The Dashboard’s “Start with Week” button follows the next incomplete week and opens that week on the Roadmap page.
+The platform retains the 16-week roadmap, expandable weekly plans, study checklists and custom tasks, progress summaries, study timer, skill-gap ratings, readiness checklist, certification cards, and per-week notes. The Dashboard has one week chooser: select any week, then open it on the Roadmap page. The “Start with Week” shortcut continues to open the next incomplete week.
 
-The timer starts with the next incomplete week selected. Each session is assigned to its selected week when it starts; the week selector stays locked until the session is logged. When the selected week is also the next recommended week, it advances as progress moves forward.
+The same selected week is used for the study timer. A session is assigned to that week when it starts, and the chooser stays locked until the session is logged. When the chooser still points to the recommended week, it advances as progress moves forward.
+
+The Roadmap page opens directly on the week list. Its five-phase overview and study tips remain available in a collapsed section below the route.
 
 The Career & Portfolio page adds practical finish criteria for project READMEs, runbooks, incident evidence, safe demos, cost notes, and cleanup. Optional polish ideas do not add required weeks.
 
