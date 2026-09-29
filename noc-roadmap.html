@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NOC / Systems Engineer Study Platform</title>
+<title>NOC / Systems Engineer Dashboard | Ops Path</title>
 <meta name="description" content="A hands-on 16-week roadmap from help desk to NOC and systems engineering, with practical labs, portfolio artifacts, and an operations capstone.">
 <meta name="theme-color" content="#0b1422">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -179,16 +179,32 @@ section{scroll-margin-top:78px}
 footer{max-width:1120px;margin:0 auto;padding:0 18px 34px;color:var(--mut);font-size:13px}
 @media(max-width:560px){main{padding:0 14px 56px}.hero{padding:24px 18px;border-radius:18px;margin-top:16px}.hero h1{font-size:clamp(38px,11vw,54px)}.hero-actions{align-items:stretch}.hero-actions .btn{width:100%}.hero-facts{margin-bottom:18px}.phase-grid{grid-template-columns:1fr}.phase-card{min-height:0}.phase-footer{align-items:flex-end}.guide-grid,.portfolio-grid{grid-template-columns:1fr}footer{padding:0 14px 28px}}
 @media(prefers-reduced-motion:reduce){.btn:hover{transform:none}.phase-card:hover{transform:none}}
+/* Multi-page views share one progress store and preserve the complete roadmap. */
+body[data-page] .page-view{display:none}
+body[data-page="dashboard"] .page-dashboard,body[data-page="roadmap"] .page-roadmap,body[data-page="career"] .page-career{display:block}
+nav a[data-page-link]{border-radius:8px;padding:8px 11px;text-decoration:none}
+body[data-page="dashboard"] nav a[data-page-link="dashboard"],body[data-page="roadmap"] nav a[data-page-link="roadmap"],body[data-page="career"] nav a[data-page-link="career"]{color:var(--ink);background:color-mix(in srgb,var(--c1) 13%,var(--bg));font-weight:700}
+.page-intro{padding:clamp(22px,4vw,38px);margin:26px 0 10px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 12px 32px rgba(15,30,50,.05)}
+.page-intro h1{font-size:clamp(34px,5vw,52px);letter-spacing:-.045em;margin:0 0 8px}
+.page-intro p{max-width:70ch;color:var(--mut);margin:0}
+.page-shortcuts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.page-shortcuts a{border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;background:var(--bg)}
+.page-shortcuts a:hover{border-color:var(--c1);color:var(--c1)}
+.timer-target-label{display:block;margin:11px 0 5px;color:var(--mut);font-size:12px;font-weight:700}
+#timerWeekHint{min-height:1.4em}
+.st[id^="week"]{scroll-margin-top:86px}
+@media(max-width:560px){nav{gap:5px}nav a[data-page-link]{padding:7px 9px}.page-intro{margin-top:16px;padding:22px 18px;border-radius:17px}}
 </style>
 </head>
-<body>
-<nav aria-label="Sections"><a href="#zone" class="brand">Ops Path</a><a href="#zone">Study zone</a><a href="#journey">Journey</a><a href="#map">Route</a><a href="#portfolio">Portfolio</a><a href="#certs">Certifications</a><a href="#gaps">Skill gaps</a><a href="#rhythm">Rhythm</a><a href="#capstone">Capstone</a><a href="#ready">Readiness</a><a href="#skip">Skip list</a><a href="#next">After</a><button id="tg" type="button">Theme</button></nav>
+<body data-page="dashboard">
+<nav aria-label="Main navigation"><a href="index.html" class="brand">Ops Path</a><a href="index.html#zone" data-page-link="dashboard" aria-current="page">Dashboard</a><a href="roadmap.html#journey" data-page-link="roadmap">Roadmap</a><a href="career.html" data-page-link="career">Career &amp; Portfolio</a><button id="tg" type="button">Theme</button></nav>
 <main>
+<div class="page-view page-dashboard">
 <header class="hero">
 <div class="eyebrow">Personal NOC / Systems Engineer roadmap</div>
 <h1>From help desk to running production.</h1>
 <p>A 16-week route to NOC / Systems Engineer: Linux, networking, Docker, AWS, APIs, monitoring, Kubernetes and Terraform. About 6 hours a week, built to survive busy weeks — with your own notes, progress and two optional certifications tracked along the way.</p>
-<div class="hero-actions"><a class="btn" href="#journey">Explore the five phases <span aria-hidden="true">→</span></a><a class="btn quiet" href="#map">Start with Week 1</a></div>
+<div class="hero-actions"><a class="btn" href="roadmap.html#journey">Explore the five phases <span aria-hidden="true">→</span></a><button class="btn quiet" id="startNextWeek" type="button">Start with Week 1</button></div>
 <div class="hero-facts"><span>16 guided weeks</span><span>~96 planned hours</span><span>1 deployable capstone</span></div>
 <div class="strip" id="strip" aria-hidden="true"></div>
 <div class="dash" id="zone">
@@ -197,12 +213,14 @@ footer{max-width:1120px;margin:0 auto;padding:0 18px 34px;color:var(--mut);font-
 <div class="card"><h3>Time logged</h3><div class="big" id="dhrs">0h</div><p id="dwk"></p></div>
 <div class="card tm"><h3>Study session</h3><div class="clock" id="clk" aria-live="off">50:00</div>
 <div class="pre" id="pre"><button type="button" data-m="25">25</button><button type="button" data-m="50">50</button><button type="button" data-m="75">75</button></div>
-<select id="tw" aria-label="Log time to week"></select>
+<label class="timer-target-label" for="tw">Log this session to</label><select id="tw" aria-label="Log time to week"></select>
 <div class="pre"><button type="button" class="btn" id="tgo" style="margin:0">Start</button><button type="button" id="tlog">Log time</button></div>
-<p class="meta" id="tmsg"></p></div>
+<p class="meta" id="timerWeekHint">Time you log is added to the selected week.</p><p class="meta" id="tmsg" aria-live="polite"></p></div>
 </div>
 </header>
+</div>
 
+<div class="page-view page-roadmap">
 <section id="journey">
 <div class="eyebrow">The learning path</div>
 <h2>Five phases. One job-ready portfolio.</h2>
@@ -233,7 +251,10 @@ footer{max-width:1120px;margin:0 auto;padding:0 18px 34px;color:var(--mut);font-
 <div class="legend" id="legend"></div>
 <div class="line" id="line"></div>
 </section>
+</div>
 
+<div class="page-view page-career">
+<div class="page-intro"><div class="eyebrow">Career growth and portfolio</div><h1>Turn practice into opportunities.</h1><p>Keep the original certification, skill-gap, capstone, readiness, and next-step guidance together, with direct links to each section.</p><div class="page-shortcuts" aria-label="Career and portfolio sections"><a href="#portfolio">Portfolio</a><a href="#certs">Certifications</a><a href="#gaps">Skill gaps</a><a href="#rhythm">Study rhythm</a><a href="#capstone">Capstone</a><a href="#ready">Readiness</a><a href="#skip">Skip list</a><a href="#next">After the role</a></div></div>
 <section id="certs">
 <h2>Certifications</h2>
 <p class="sub">Optional — neither is required for the target role. Both are here because they validate exactly what’s already in the route above, both are hands-on exams rather than multiple-choice, and neither adds to the ~6 h/week budget: the weeks below already cover the material, and sitting the exam is a separate step for whenever you’re ready.</p>
@@ -330,6 +351,7 @@ footer{max-width:1120px;margin:0 auto;padding:0 18px 34px;color:var(--mut);font-
 <p class="sub">Each stage adds a small set of skills on top of the last.</p>
 <div class="lad" id="lad"></div>
 </section>
+</div>
 </main>
 <footer>Built for steady progress and practical proof. Checklist progress and notes stay in this browser; they are not committed to the public repository.</footer>
 
@@ -377,7 +399,7 @@ $("legend").innerHTML=P.map(function(p,i){return '<span class="p'+i+'">'+p+'</sp
 function draw(){
  var open={};document.querySelectorAll(".st.open").forEach(function(e){open[e.dataset.n]=1});
  $("line").innerHTML=W.map(function(w,i){var n=w[0],d=done(n);
-  return '<div class="st p'+w[1]+(i==0?' first':'')+(i==15?' last':'')+(d?' done':'')+(open[n]?' open':'')+'" data-n="'+n+'"><div class="dot">'+(d?'✓':n)+'</div>'+
+  return '<div id="week'+n+'" class="st p'+w[1]+(i==0?' first':'')+(i==15?' last':'')+(d?' done':'')+(open[n]?' open':'')+'" data-n="'+n+'"><div class="dot">'+(d?'✓':n)+'</div>'+
   '<button type="button" class="hd" aria-expanded="'+(open[n]?'true':'false')+'"><strong>'+esc(w[2])+(w[9]?' <span class="tagc">'+w[9]+'</span>':'')+'</strong><small>Week '+n+', ~'+w[8]+' h · '+Math.round(pct(n)*100)+'%'+(hasNote(n)?' · notes':'')+'</small></button>'+
   '<div class="bd"><dl><dt>Skills</dt><dd>'+esc(w[3])+'</dd><dt>KodeKloud</dt><dd>'+esc(w[4])+'</dd><dt>Hands-on</dt><dd>'+esc(w[5])+'</dd><dt>Artifact</dt><dd>'+esc(w[6])+'</dd><dt>Builds on</dt><dd>'+esc(w[7])+'</dd></dl>'+
   checkHtml(n)+noteHtml(n)+'</div></div>'}).join("");
@@ -432,17 +454,22 @@ function checkHtml(n){var i=items(n),lg=S.lg[n]||0;
  i.cu.map(function(c,k){return '<label class="ck'+(c.d?' d':'')+'"><input type="checkbox" data-c="'+n+':'+k+'"'+(c.d?' checked':'')+'><span>'+esc(c.t)+'</span><button type="button" data-cr="'+n+':'+k+'" aria-label="Remove task">Remove</button></label>'}).join("")+
  '<div class="ad"><input type="text" id="ad'+n+'" placeholder="Add your own task" maxlength="120" aria-label="Add your own task"><button type="button" class="btn g" data-add="'+n+'" style="margin:0">Add</button></div></div>'}
  function updatePhases(){document.querySelectorAll("[data-phase-card]").forEach(function(card){var i=+card.dataset.phaseCard,ws=W.filter(function(w){return w[1]===i}),finished=ws.filter(function(w){return done(w[0])}).length,total=ws.length,p=Math.round(finished/total*100),state=$("phase-state-"+i),bar=$("phase-bar-"+i),next=$("phase-next-"+i);if(state)state.textContent=finished+" of "+total+" weeks complete";if(bar){bar.style.width=p+"%";bar.parentNode.setAttribute("aria-valuenow",p)}if(next){var left=total-finished;next.textContent=left?left+(left===1?" week":" weeks")+" until phase complete":"Phase complete"}})}
- var curN=1;
+var curN=1,lastSuggestedWeek=null;
+function updateTimerWeekHint(){var hint=$("timerWeekHint"),w=T.week||+$("tw").value;if(!hint)return;hint.textContent=T.week?"Timer session is assigned to Week "+T.week+". Finish or log it before switching weeks.":"Time you log will be added to Week "+w+"."}
+function syncTimerWeek(nextWeek){var sel=$("tw");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=nextWeek||W[W.length-1][0]}else if(nextWeek&&!T.week&&!T.el&&(lastSuggestedWeek===null||+sel.value===lastSuggestedWeek)){sel.value=nextWeek}if(nextWeek&&!T.week&&!T.el)lastSuggestedWeek=nextWeek;updateTimerWeekHint()}
 function dash(){var tot=0,dn=0,tp=0,cur=null,mins=0;
  W.forEach(function(w){var c=cnt(w[0]);tot+=c[1];dn+=c[0];mins+=S.lg[w[0]]||0;if(c[0]>=c[1])tp++;else if(!cur)cur=w});
  $("strip").innerHTML=W.map(function(w){return '<b class="p'+w[1]+(done(w[0])?' done':'')+'"></b>'}).join("");
  $("dpct").textContent=Math.round(dn/tot*100)+"%";$("dbar").style.width=(dn/tot*100)+"%";$("dsub").textContent=tp+" of 16 weeks complete";
  if(cur){curN=cur[0];var i=items(cur[0]),k=i.st.indexOf(0),nx=k>=0?STEPS[k]:(i.cu.filter(function(c){return !c.d})[0]||{t:"Finish your extra tasks"}).t;
-  $("dnext").textContent="Week "+cur[0]+", "+cur[2]+". Next: "+nx+"."}else{$("dnext").textContent="All 16 weeks complete. Rebuild the capstone from zero."}
+  $("startNextWeek").textContent="Start with Week "+cur[0];
+  $("dnext").textContent="Week "+cur[0]+", "+cur[2]+". Next: "+nx+".";$("go").textContent="Open this week"}else{$("dnext").textContent="All 16 weeks complete. Rebuild the capstone from zero.";$("go").textContent="Review capstone"}
+ if(!cur){curN=null;$("startNextWeek").textContent="Review your capstone"}
  $("dhrs").textContent=hm(mins);$("dwk").textContent="Plan: about 96 hours over 16 weeks";
-  var sel=$("tw");if(!sel.options.length){sel.innerHTML=W.map(function(w){return '<option value="'+w[0]+'">Week '+w[0]+': '+w[2]+'</option>'}).join("");sel.value=curN}updatePhases()}
-function jump(n){var e=document.querySelector('.st[data-n="'+n+'"]');if(!e)return;e.classList.add("open");e.querySelector(".hd").setAttribute("aria-expanded","true");e.scrollIntoView({behavior:"smooth",block:"start"})}
-$("go").onclick=function(){jump(curN)};
+  syncTimerWeek(curN);updatePhases()}
+function jump(n){if(document.body.dataset.page!=="roadmap"){window.location.href="roadmap.html#week"+n;return}var e=document.querySelector('.st[data-n="'+n+'"]');if(!e)return;e.classList.add("open");e.querySelector(".hd").setAttribute("aria-expanded","true");e.scrollIntoView({behavior:"smooth",block:"start"})}
+$("startNextWeek").onclick=function(){if(curN)jump(curN);else window.location.href="career.html#capstone"};
+$("go").onclick=function(){if(curN)jump(curN);else window.location.href="career.html#capstone"};
 document.addEventListener("click",function(e){var b=e.target.closest("button[data-jump]");if(b)jump(+b.dataset.jump)});
 $("line").addEventListener("change",function(e){var t=e.target,a,n;
  if(t.dataset.s){a=t.dataset.s.split(":");n=a[0];var st=items(n).st.slice();st[a[1]]=t.checked?1:0;S.st[n]=st;save();draw()}
@@ -451,16 +478,19 @@ function addTask(n){var i=$("ad"+n),v=i&&i.value.trim();if(!v)return;(S.cu[n]=S.
 $("line").addEventListener("click",function(e){var b=e.target.closest("button[data-add]");if(b)addTask(b.dataset.add);
  b=e.target.closest("button[data-cr]");if(b){e.preventDefault();var a=b.dataset.cr.split(":");S.cu[a[0]].splice(+a[1],1);save();draw()}});
 $("line").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id&&e.target.id.indexOf("ad")===0){e.preventDefault();addTask(e.target.id.slice(2))}});
-var T={tot:50,s:3000,el:0,iv:null};
+var T={tot:50,s:3000,el:0,iv:null,week:null};
 function fmt(s){return ("0"+Math.floor(s/60)).slice(-2)+":"+("0"+s%60).slice(-2)}
+function lockTimerTarget(locked){$("tw").disabled=locked;Array.prototype.forEach.call($("pre").querySelectorAll("button"),function(b){b.disabled=locked})}
 function pause(){clearInterval(T.iv);T.iv=null;$("tgo").textContent=T.el?"Resume":"Start"}
 function logT(){var m=Math.round(T.el/60);if(m<1){$("tmsg").textContent="Study for at least a minute, then log.";return}
- var w=+$("tw").value;S.lg[w]=(S.lg[w]||0)+m;T.el=0;T.s=T.tot*60;pause();$("tgo").textContent="Start";$("clk").textContent=fmt(T.s);$("tmsg").textContent="Logged "+m+" min to Week "+w+".";save();dash();draw()}
-$("tgo").onclick=function(){if(T.iv){pause();return}if(T.s<=0)T.s=T.tot*60;$("tgo").textContent="Pause";
+ var w=T.week||+$("tw").value;S.lg[w]=(S.lg[w]||0)+m;T.el=0;T.week=null;T.s=T.tot*60;pause();lockTimerTarget(false);$("tgo").textContent="Start";$("clk").textContent=fmt(T.s);$("tmsg").textContent="Logged "+m+" min to Week "+w+".";updateTimerWeekHint();save();dash();draw()}
+$("tw").addEventListener("change",updateTimerWeekHint);
+$("tgo").onclick=function(){if(T.iv){pause();return}if(T.s<=0){T.s=T.tot*60;T.el=0;T.week=null}if(!T.week)T.week=+$("tw").value;lockTimerTarget(true);updateTimerWeekHint();$("tgo").textContent="Pause";
  T.iv=setInterval(function(){T.s--;T.el++;$("clk").textContent=fmt(T.s);if(T.s<=0)logT()},1000)};
 $("tlog").onclick=logT;
-$("pre").addEventListener("click",function(e){var m=e.target.dataset.m;if(!m||T.iv)return;T.tot=+m;T.s=T.tot*60;T.el=0;$("clk").textContent=fmt(T.s);$("tgo").textContent="Start"});
+$("pre").addEventListener("click",function(e){var m=e.target.dataset.m;if(!m||T.iv||T.el)return;T.tot=+m;T.s=T.tot*60;T.el=0;T.week=null;lockTimerTarget(false);$("clk").textContent=fmt(T.s);$("tgo").textContent="Start";updateTimerWeekHint()});
 draw();
+if(document.body.dataset.page==="roadmap"&&/^#week\d+$/.test(location.hash)){var startAt=+location.hash.slice(5);setTimeout(function(){jump(startAt)},0)}
 </script>
 </body>
 </html>
